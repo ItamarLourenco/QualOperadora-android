@@ -1,38 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
-    xmlns:ripple="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        android:background="@drawable/ab_solid_qualoperadora"
+        app:pstsDividerColor="#FFF"
+        app:pstsIndicatorColor="#FFF"
+        app:pstsTabPaddingLeftRight="14dip"
+        app:pstsShouldExpand="true"
+        android:textColor="#FFF"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="48dip" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="This is the hint" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-
-    <com.andexert.library.RippleView
-        android:id="@+id/more"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        ripple:rv_centered="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000">
-
-        </LinearLayout>
-
-    </com.andexert.library.RippleView>
-
-
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>

@@ -1,6 +1,7 @@
 <resources>
 
     <style name="Theme.Qualoperadora" parent="@style/Theme.AppCompat.Light">
+        <item name="android:windowContentOverlay">@null</item>
         <item name="actionBarItemBackground">@drawable/selectable_background_qualoperadora</item>
         <item name="popupMenuStyle">@style/PopupMenu.Qualoperadora</item>
         <item name="dropDownListViewStyle">@style/DropDownListView.Qualoperadora</item>
