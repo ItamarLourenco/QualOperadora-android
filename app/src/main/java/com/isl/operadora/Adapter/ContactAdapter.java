@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.andexert.library.RippleView;
 import com.isl.operadora.Model.Contact;
 import com.isl.operadora.R;
+import com.isl.operadora.Ui.ContactsFragment;
 
 import java.util.ArrayList;
 
@@ -20,23 +22,25 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
     public Activity mActivity;
-    public ArrayList<Contact> mContacs;
+    public ContactsFragment mFragment;
+    public ArrayList<Contact> mContacts;
     public LayoutInflater inflater;
 
-    public ContactAdapter(Activity act, ArrayList<Contact> contacts){
+    public ContactAdapter(ContactsFragment fragment, Activity act, ArrayList<Contact> contacts){
         mActivity = act;
-        mContacs = contacts;
+        mContacts = contacts;
         inflater = LayoutInflater.from(act);
+        mFragment = fragment;
     }
 
     @Override
     public int getCount() {
-        return mContacs.size();
+        return mContacts.size();
     }
 
     @Override
     public Contact getItem(int position) {
-        return mContacs.get(position);
+        return mContacts.get(position);
     }
 
     @Override
@@ -45,7 +49,7 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         MyViewHolder myViewHolder;
         if(convertView == null) {
             convertView = inflater.inflate(R.layout.list_contacts, null);
@@ -54,6 +58,14 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
         }else{
             myViewHolder = (MyViewHolder) convertView.getTag();
         }
+
+        myViewHolder.item = (RippleView) convertView.findViewById(R.id.item);
+        myViewHolder.item.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mFragment.onClickListView(position);
+            }
+        });
 
         myViewHolder.name = (TextView) convertView.findViewById(R.id.name);
         myViewHolder.name.setText(getItem(position).getName());
@@ -69,7 +81,7 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
         HeaderViewHolder holder;
         if (convertView == null) {
             holder = new HeaderViewHolder();
-            convertView = inflater.inflate(R.layout.header, parent, false);
+            convertView = inflater.inflate(R.layout.listview_contacts_header, parent, false);
             holder.text = (TextView) convertView.findViewById(R.id.text);
             convertView.setTag(holder);
         } else {
@@ -82,12 +94,13 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
 
     @Override
     public long getHeaderId(int position) {
-        return mContacs.get(position).getName().subSequence(0, 1).charAt(0);
+        return mContacts.get(position).getName().subSequence(0, 1).charAt(0);
     }
 
     private class MyViewHolder {
         public TextView name;
         public TextView number;
+        public RippleView item;
     }
 
     class HeaderViewHolder {

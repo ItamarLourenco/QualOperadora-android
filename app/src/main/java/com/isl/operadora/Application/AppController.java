@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 /**
  * Created by webx on 08/04/15.
@@ -15,6 +16,7 @@ public class AppController extends Application {
     private static final String TAG = AppController.class.getSimpleName();
     private static AppController appController;
     private RequestQueue requestQueue;
+    public static final Gson GSON = new Gson();
 
     @Override
     public void onCreate(){

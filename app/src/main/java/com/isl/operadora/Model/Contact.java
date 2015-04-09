@@ -55,7 +55,6 @@ public class Contact {
             }
             phones.close();
         }
-
         return contacts;
     }
 }
