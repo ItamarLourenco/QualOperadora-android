@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.andexert.library.RippleView
+        android:id="@+id/more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ripple:rv_type="rectangle"
+        ripple:rv_zoom="true"
+        ripple:rv_rippleDuration="100"
+        ripple:rv_color="#CCC">
+
+        <LinearLayout
+            android:paddingLeft="3dp"
+            android:paddingRight="5dp"
+            android:layout_margin="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#438BFA"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/name" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/number" />
+        </LinearLayout>
+
+    </com.andexert.library.RippleView>
+
+</LinearLayout>

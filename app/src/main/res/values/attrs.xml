@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="_AppTheme">
+        <attr name="customFontTextViewStyle" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="CustomFontTextView">
+        <attr name="fontFileName" format="string" />
+    </declare-styleable>
+</resources>

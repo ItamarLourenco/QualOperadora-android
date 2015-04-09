@@ -11,7 +11,6 @@
         <item name="actionModeBackground">@drawable/cab_background_top_qualoperadora</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_qualoperadora</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Qualoperadora</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 
     <style name="ActionBar.Solid.Qualoperadora" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
