@@ -34,7 +34,7 @@ public class Logger {
 
     public static void t(Object message){
         try{
-            Toast.makeText(AppController.getContext(), String.valueOf(message), Toast.LENGTH_LONG).show();
+            Toast.makeText(AppController.getInstance(), String.valueOf(message), Toast.LENGTH_LONG).show();
             d(String.valueOf(message));
         }catch(RuntimeException e){}
     }

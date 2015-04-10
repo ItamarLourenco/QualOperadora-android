@@ -6,18 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.isl.operadora.Adapter.ContactAdapter;
-import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Model.Contact;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
-import com.isl.operadora.Util.Util;
+import com.isl.operadora.Request.ContactRequest;
+import com.isl.operadora.Util.Logger;
 
 import java.util.ArrayList;
 
@@ -28,7 +23,6 @@ public class ContactsFragment extends Fragment{
 
     public StickyListHeadersListView listView;
     public ArrayList<Contact> contacts;
-    public static final String security = "#@qu4l0pe4d0r4@#";
 
     public static ContactsFragment newInstance() {
         ContactsFragment fragment = new ContactsFragment();
@@ -58,31 +52,20 @@ public class ContactsFragment extends Fragment{
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_search_contacts, null);
         dialog.setView(view);
         dialog.setInverseBackgroundForced(true);
-        dialog.show();
 
-        Portabily portabily = new Portabily();
-        Portabily.GetPortabily getPortabily = portabily.getPortabily();
-        String timeStamp = Util.getTimeStamp();
-        getPortabily.setTokenId(timeStamp);
-        getPortabily.setTokenCryp(Util.md5(security + timeStamp));
-        getPortabily.setPhones(new String[] {contacts.get(position).getNumber()});
+        String number = contacts.get(position).getNumber();
 
-        Toast.makeText(getActivity(), getPortabily.getJson(), Toast.LENGTH_LONG).show();
-
-        String url = "http://54.191.245.5/qualOperadora/web/index.php?r=api/portabilidade";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-            new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    Toast.makeText(getActivity(), response, Toast.LENGTH_LONG).show();
-                }
-            }, new Response.ErrorListener() {
+        new ContactRequest(new String[] {number}){
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), String.valueOf(error.getMessage()), Toast.LENGTH_LONG).show();
+            public void onFinish(Portabily.PushPortabily portabily) {
+                for(Portabily.PushPortabily.DataPortabily dataPortabily : portabily.getData())
+                {
+                    Logger.t(dataPortabily.getPhone() + " = " + dataPortabily.getOperadora());
+                }
             }
-        });
-        AppController.getContext().addToRequestQueue(stringRequest);
+        };
+
+        dialog.show();
 
     }
 }
