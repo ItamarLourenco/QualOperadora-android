@@ -7,8 +7,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Model.Portabily;
-import com.isl.operadora.R;
-import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Util;
 
 /**
@@ -41,7 +39,6 @@ public abstract class ContactRequest {
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        Logger.t(AppController.getInstance().getString(R.string.error));
                         onFinish(null);
                     }
                 })

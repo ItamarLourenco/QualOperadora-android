@@ -6,31 +6,50 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center">
+        android:layout_height="match_parent">
 
-        <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
-            android:id="@+id/progressBarCircularIndeterminate"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:background="#1E88E5" />
-
-        <com.isl.operadora.Widgets.CustomFontTextView
-            android:id="@+id/laoding"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:textColor="#1E88E5"
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_centerVertical="true"
-            android:textSize="14dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:text="@string/loading"
-            android:gravity="center" />
+            android:id="@+id/loading">
+
+            <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
+                android:id="@+id/progressBarCircularIndeterminate"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="#1E88E5" />
+
+            <com.isl.operadora.Widgets.CustomFontTextView
+                android:id="@+id/laoding"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#1E88E5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_centerVertical="true"
+                android:textSize="14dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@string/loading"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/carries">
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

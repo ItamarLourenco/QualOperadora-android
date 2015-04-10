@@ -14,9 +14,6 @@ public class Contact {
     private String number;
     public static ArrayList<Contact> contacts;
 
-    public int NAME = 0;
-    public int NUMBER = 1;
-
     public Contact(String name, String number){
         this.name = name;
         this.number = number;
@@ -39,7 +36,7 @@ public class Contact {
     }
 
     public static ArrayList<Contact> getContacts(Activity act){
-        contacts = new ArrayList<Contact>();
+        contacts = new ArrayList<>();
         Cursor phones = act.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null,
                 null,

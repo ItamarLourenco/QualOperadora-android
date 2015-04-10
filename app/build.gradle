@@ -35,4 +35,5 @@ dependencies {
     compile 'se.emilsjolander:stickylistheaders:2.1.0'
     compile 'com.github.eluleci:flatui:3.0.0'
     compile 'com.google.code.gson:gson:2.2.+'
+    compile 'de.keyboardsurfer.android.widget:crouton:1.8.5@aar'
 }
