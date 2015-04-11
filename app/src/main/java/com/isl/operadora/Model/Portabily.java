@@ -81,14 +81,15 @@ public class Portabily {
         }
 
         public class DataPortabily{
-            public String phone;
-            public boolean portabilidade;
-            public boolean encontrado;
-            public String uf;
-            public String ddd;
-            public String rn1;
-            public String prefixo;
-            public String operadora;
+            private String phone;
+            private boolean portabilidade;
+            private boolean encontrado;
+            private String uf;
+            private String ddd;
+            private String rn1;
+            private String prefixo;
+            private String operadora;
+            private String date;
 
             public boolean isPortabilidade() {
                 return portabilidade;
@@ -152,6 +153,10 @@ public class Portabily {
 
             public void setOperadora(String operadora) {
                 this.operadora = operadora;
+            }
+
+            public String getDate() {
+                return date;
             }
         }
     }

@@ -18,9 +18,12 @@ public class AppController extends Application {
     private RequestQueue requestQueue;
     public static final Gson GSON = new Gson();
 
+    public final static String pubAdMob = "pub-2541702994665550";
+
     @Override
     public void onCreate(){
         super.onCreate();
+
         appController = this;
     }
 

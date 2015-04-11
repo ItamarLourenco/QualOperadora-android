@@ -5,6 +5,7 @@
 
     <LinearLayout
         android:orientation="vertical"
+        android:layout_margin="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -40,17 +41,204 @@
 
         </LinearLayout>
 
+        <!-- ########################################################################################################################### -->
+        <!-- ########################################################################################################################### -->
+        <!-- ########################################################################################################################### -->
+
         <LinearLayout
-            android:gravity="center"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:id="@+id/carries">
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/carrie"
+                    android:textColor="#1E88E5"
+                    android:maxLines="1"  />
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:id="@+id/carrie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:maxLines="1"  />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/region"
+                    android:textColor="#1E88E5"
+                    android:maxLines="1"  />
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:id="@+id/region"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:maxLines="1"
+                    android:layout_marginBottom="10dp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/portabilty"
+                    android:textColor="#1E88E5"
+                    android:maxLines="1"  />
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:id="@+id/portabilty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:maxLines="1"
+                    android:layout_marginBottom="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/labelCanvas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/when"
+                    android:textColor="#1E88E5"
+                    android:maxLines="1"  />
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:id="@+id/when"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:maxLines="1"
+                    android:layout_marginBottom="10dp" />
+
+            </LinearLayout>
+
+                <ImageView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:id="@+id/carrieImage"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#1E88E5"
+                    android:text="@string/logout" />
+
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/save"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#1E88E5"
+                    android:text="@string/save" />
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+        <!-- ########################################################################################################################### -->
+        <!-- ########################################################################################################################### -->
+        <!-- ########################################################################################################################### -->
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:id="@+id/notFound">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/notFount"
+                    android:textColor="#333"
+                    android:maxLines="1"  />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.gc.materialdesign.views.ButtonFlat
+                    android:id="@+id/logoutNotFount"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="#1E88E5"
+                    android:text="@string/logout" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="370dp"
+            android:layout_height="100dp"
+            android:id="@+id/adView"
+            android:orientation="vertical">
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>

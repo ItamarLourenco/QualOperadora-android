@@ -10,4 +10,13 @@
     <string name="titleConsults">Consultas</string>
     <string name="loading">Buscando operadora</string>
     <string name="error">Sem conexão com a internet. \nPor favor tente novamente!</string>
+    <string name="carrie">Operadora: </string>
+    <string name="region">Região: </string>
+    <string name="portabilty">Portabilidade: </string>
+    <string name="when">Quando: </string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="logout">Sair</string>
+    <string name="save">Gravar</string>
+    <string name="notFount">Telefone não encontrado :(</string>
 </resources>
