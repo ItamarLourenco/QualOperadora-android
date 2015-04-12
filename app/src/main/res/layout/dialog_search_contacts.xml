@@ -63,12 +63,12 @@
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:layout_marginBottom="10dp"
-                    android:text="@string/carrie"
+                    android:text="@string/contact"
                     android:textColor="#1E88E5"
                     android:maxLines="1"  />
 
                 <com.isl.operadora.Widgets.CustomFontTextView
-                    android:id="@+id/carrie"
+                    android:id="@+id/contact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
@@ -88,19 +88,96 @@
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:layout_marginBottom="10dp"
-                    android:text="@string/region"
+                    android:text="@string/phone"
                     android:textColor="#1E88E5"
                     android:maxLines="1"  />
 
                 <com.isl.operadora.Widgets.CustomFontTextView
-                    android:id="@+id/region"
+                    android:id="@+id/phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
-                    android:maxLines="1"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_marginBottom="10dp"
+                    android:maxLines="1"  />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/carrie"
+                    android:textColor="#1E88E5"
+                    android:maxLines="1"  />
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:id="@+id/carrie"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:maxLines="1"  />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/labelCarrieOld"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/carrieOld"
+                    android:textColor="#1E88E5"
+                    android:maxLines="1"  />
+
+                <com.isl.operadora.Widgets.CustomFontTextView
+                    android:id="@+id/carrieOld"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginBottom="10dp"
+                    android:maxLines="1"  />
+
+            </LinearLayout>
+
+
+            <!--<LinearLayout-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<com.isl.operadora.Widgets.CustomFontTextView-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="16dp"-->
+                    <!--android:layout_marginBottom="10dp"-->
+                    <!--android:text="@string/region"-->
+                    <!--android:textColor="#1E88E5"-->
+                    <!--android:maxLines="1"  />-->
+
+                <!--<com.isl.operadora.Widgets.CustomFontTextView-->
+                    <!--android:id="@+id/region"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="16dp"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:layout_marginBottom="10dp" />-->
+
+            <!--</LinearLayout>-->
 
 
             <LinearLayout
@@ -237,6 +314,7 @@
             android:layout_width="370dp"
             android:layout_height="100dp"
             android:id="@+id/adView"
+            android:visibility="gone"
             android:orientation="vertical">
         </LinearLayout>
 

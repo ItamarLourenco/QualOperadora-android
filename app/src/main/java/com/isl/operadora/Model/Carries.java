@@ -117,6 +117,7 @@ public class Carries {
         mCarries.put(55215, R.drawable.vivo);
         mCarries.put(55320, R.drawable.vivo);
         mCarries.put(55323, R.drawable.vivo);
+        mCarries.put(55121, R.drawable.embratel);
     }
 
     public Map<Integer, Integer> getCarries(){

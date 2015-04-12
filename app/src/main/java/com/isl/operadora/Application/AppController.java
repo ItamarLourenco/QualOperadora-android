@@ -7,6 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.isl.operadora.SharedPreferences.Ddd;
 
 /**
  * Created by webx on 08/04/15.
@@ -17,14 +18,16 @@ public class AppController extends Application {
     private static AppController appController;
     private RequestQueue requestQueue;
     public static final Gson GSON = new Gson();
+    public Ddd mDdd;
 
     public final static String pubAdMob = "pub-2541702994665550";
 
     @Override
     public void onCreate(){
         super.onCreate();
-
         appController = this;
+
+        mDdd = new Ddd();
     }
 
     public static synchronized AppController getInstance(){

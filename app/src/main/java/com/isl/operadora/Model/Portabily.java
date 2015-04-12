@@ -90,6 +90,7 @@ public class Portabily {
             private String prefixo;
             private String operadora;
             private String date;
+            @SerializedName("operadora_anterior") private String operadoraAnterior;
 
             public boolean isPortabilidade() {
                 return portabilidade;
@@ -157,6 +158,14 @@ public class Portabily {
 
             public String getDate() {
                 return date;
+            }
+
+            public void setOperadoraAnterior(String rn1Anterior){
+                this.operadoraAnterior = rn1Anterior;
+            }
+
+            public String getOperadoraAnterior(){
+                return operadoraAnterior;
             }
         }
     }

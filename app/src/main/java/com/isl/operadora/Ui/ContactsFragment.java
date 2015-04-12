@@ -21,6 +21,8 @@ import com.isl.operadora.Model.Contact;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
 import com.isl.operadora.Request.ContactRequest;
+import com.isl.operadora.Util.Logger;
+import com.isl.operadora.Util.Util;
 import com.isl.operadora.Widgets.CustomFontTextView;
 
 import java.util.ArrayList;
@@ -39,13 +41,14 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     private LinearLayout mCarriesLinear;
     private LinearLayout mNotFound;
     private LinearLayout wLabelCanvas;
-    private LinearLayout mAdViewLayout;
-    public AdView mAdView;
+    private LinearLayout mLabelCarrieOld;
 
-    private CustomFontTextView mRegion;
     private CustomFontTextView mCarrie;
     private CustomFontTextView mPortabilty;
     private CustomFontTextView mWhen;
+    private CustomFontTextView mCarrieOld;
+    private CustomFontTextView mContact;
+    private CustomFontTextView mPhone;
 
     private ButtonFlat mButtonLougout;
     private ButtonFlat mButtonLougoutNotFound;
@@ -71,10 +74,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
-        mAdView = new AdView(getActivity());
-        mAdView.setAdUnitId(AppController.pubAdMob);
-        mAdView.setAdSize(AdSize.BANNER);
-
         mContacts = Contact.getContacts(getActivity());
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
@@ -83,7 +82,14 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         return view;
     }
 
-    public void onClickListView(int position){
+    public void onClickListView(int position)
+    {
+        if(!Util.isNetworkAvailable())
+        {
+            Crouton.makeText(getActivity(), R.string.error, Style.ALERT).show();
+            return;
+        }
+
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_search_contacts, null);
 
         mDialog = new AlertDialog.Builder( getActivity() ).create();
@@ -93,8 +99,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         mLoadingLinear = (LinearLayout) view.findViewById(R.id.loading);
         mCarriesLinear = (LinearLayout) view.findViewById(R.id.carries);
 
-        mRegion = (CustomFontTextView) view.findViewById(R.id.region);
-        mRegion.setTypeface(getString(R.string.opensansregular));
         mCarrie = (CustomFontTextView) view.findViewById(R.id.carrie);
         mCarrie.setTypeface(getString(R.string.opensansregular));
         mPortabilty = (CustomFontTextView) view.findViewById(R.id.portabilty);
@@ -110,43 +114,50 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         mNotFound = (LinearLayout) view.findViewById(R.id.notFound);
         mButtonLougoutNotFound = (ButtonFlat) view.findViewById(R.id.logoutNotFount);
         mButtonLougoutNotFound.setOnClickListener(this);
-        mAdViewLayout = (LinearLayout) view.findViewById(R.id.adView);
-
-        try{
-            mAdViewLayout.addView(mAdView);
-            AdRequest adRequest = new AdRequest.Builder().addTestDevice("A0C1DE1295BCD23004629CE3AF971C7D").build();
-
-            mAdView.loadAd(adRequest);
-        }catch(IllegalStateException e){}
-
+        mLabelCarrieOld = (LinearLayout) view.findViewById(R.id.labelCarrieOld);
+        mCarrieOld = (CustomFontTextView) view.findViewById(R.id.carrieOld);
+        mContact = (CustomFontTextView) view.findViewById(R.id.contact);
+        mPhone = (CustomFontTextView) view.findViewById(R.id.phone);
 
         mDialog.show();
 
-        searchNumber(mContacts.get(position).getNumber());
+        searchNumber(mContacts.get(position));
     }
 
-    public void searchNumber(String number){
-        new ContactRequest(new String[] {number}){
+    public void searchNumber(final Contact contact){
+        new ContactRequest(new String[] { Util.formatPhone(contact.getNumber(), AppController.getInstance().mDdd.getDDD()) })
+        {
             @Override
-            public void onFinish(Portabily.PushPortabily portabily) {
-                if(portabily != null){
+            public void onFinish(Portabily.PushPortabily portabily)
+            {
+                if(portabily != null)
+                {
                     for(Portabily.PushPortabily.DataPortabily dataPortabily : portabily.getData())
                     {
                         if(dataPortabily != null)
                         {
-                            mCarrieImage.setImageResource(
-                                    Carries.getCarreiImage(dataPortabily.getRn1())
-                            );
+                            mContact.setText(" " + contact.getName());
+                            mPhone.setText(" " + contact.getNumber());
+
                             mLoadingLinear.setVisibility(View.GONE);
                             mCarriesLinear.setVisibility(View.VISIBLE);
 
+                            if(!TextUtils.isEmpty(dataPortabily.getRn1())){
+                                mCarrieImage.setImageResource(
+                                        Carries.getCarreiImage(dataPortabily.getRn1())
+                                );
+                            }
+
+                            if(!TextUtils.isEmpty(dataPortabily.getOperadoraAnterior())){
+                                mCarrieOld.setText(" " + dataPortabily.getOperadoraAnterior());
+                            }else{
+                                mLabelCarrieOld.setVisibility(View.GONE);
+                            }
+
                             if(TextUtils.isEmpty(dataPortabily.getOperadora())) {
-                                notFound();
+                                notFound(); return;
                             }else{
                                 mCarrie.setText(" " + dataPortabily.getOperadora());
-                            }
-                            if(!TextUtils.isEmpty(dataPortabily.getOperadora())) {
-                                mRegion.setText(" " + dataPortabily.getOperadora());
                             }
                             if(dataPortabily.isPortabilidade()) {
                                 mPortabilty.setText(" " + getString(R.string.yes));
@@ -161,11 +172,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
                             }
                         }
                     }
-                }else{
-                    if(mDialog.isShowing()){
-                        mDialog.dismiss();
-                    }
-                    Crouton.makeText(getActivity(), R.string.error, Style.ALERT).show();
+                }
+                else
+                {
+                    mLoadingLinear.setVisibility(View.GONE);
+                    mCarriesLinear.setVisibility(View.VISIBLE);
+                    notFound(); return;
                 }
             }
         };
@@ -194,23 +206,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     private void notFound() {
         mCarriesLinear.setVisibility(View.GONE);
         mNotFound.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onPause() {
-        mAdView.pause();
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mAdView.resume();
-    }
-
-    @Override
-    public void onDestroy() {
-        mAdView.destroy();
-        super.onDestroy();
+        return;
     }
 }

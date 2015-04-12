@@ -24,12 +24,12 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
     public Activity mActivity;
     public ContactsFragment mFragment;
     public ArrayList<Contact> mContacts;
-    public LayoutInflater inflater;
+    public LayoutInflater mInflater;
 
     public ContactAdapter(ContactsFragment fragment, Activity act, ArrayList<Contact> contacts){
         mActivity = act;
         mContacts = contacts;
-        inflater = LayoutInflater.from(act);
+        mInflater = LayoutInflater.from(act);
         mFragment = fragment;
     }
 
@@ -52,7 +52,7 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
     public View getView(final int position, View convertView, ViewGroup parent) {
         MyViewHolder myViewHolder;
         if(convertView == null) {
-            convertView = inflater.inflate(R.layout.list_contacts, null);
+            convertView = mInflater.inflate(R.layout.list_contacts, null);
             myViewHolder = new MyViewHolder();
             convertView.setTag(myViewHolder);
         }else{
@@ -81,7 +81,7 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
         HeaderViewHolder holder;
         if (convertView == null) {
             holder = new HeaderViewHolder();
-            convertView = inflater.inflate(R.layout.listview_contacts_header, parent, false);
+            convertView = mInflater.inflate(R.layout.listview_contacts_header, parent, false);
             holder.text = (TextView) convertView.findViewById(R.id.text);
             convertView.setTag(holder);
         } else {

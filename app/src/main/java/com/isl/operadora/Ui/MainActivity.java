@@ -1,20 +1,40 @@
 package com.isl.operadora.Ui;
 
+import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.isl.operadora.Adapter.DddAdapter;
+import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Base.BaseActionBarActivity;
-import com.isl.operadora.R;
+import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Widgets.CustomFontTextView;
 
+import java.util.ArrayList;
+import com.isl.operadora.R;
 
-public class MainActivity extends BaseActionBarActivity {
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
+
+public class MainActivity extends BaseActionBarActivity{
+
+    private AlertDialog mDialogDDD;
+    public ArrayList<String> mDdds = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,18 +47,34 @@ public class MainActivity extends BaseActionBarActivity {
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         pager.setAdapter(new PagersAdapter(getSupportFragmentManager()));
         tabs.setViewPager(pager);
+
+        checkIfConfiguredDdd();
     }
 
-    private void setActionBar() {
+    private void setActionBar()
+    {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View v = layoutInflater.inflate(R.layout.action_bar, null);
-        CustomFontTextView title = (CustomFontTextView) v.findViewById(R.id.title);
+        View view = layoutInflater.inflate(R.layout.action_bar, null);
+        final CustomFontTextView title = (CustomFontTextView) view.findViewById(R.id.title);
         title.setText(getTitle());
         title.setTypeface(getString(R.string.opensansregular));
-        getSupportActionBar().setCustomView(v);
+
+        final EditText search = (EditText) view.findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Logger.t("TESTE");
+                title.setVisibility(View.GONE);
+                search.setVisibility(View.VISIBLE);
+            }
+        });
+
+        getSupportActionBar().setCustomView(view);
+
     }
+
 
     public class PagersAdapter extends FragmentPagerAdapter {
 
@@ -81,5 +117,36 @@ public class MainActivity extends BaseActionBarActivity {
             }
         }
     }
+
+    private void checkIfConfiguredDdd()
+    {
+        if(TextUtils.isEmpty(AppController.getInstance().mDdd.getDDD()))
+        {
+            mDialogDDD = new AlertDialog.Builder(AppController.getInstance()).create();
+            View view = getLayoutInflater().inflate(R.layout.list_ddd, null);
+            mDialogDDD = new AlertDialog.Builder( this ).create();
+            mDialogDDD.setView(view);
+            mDialogDDD.setInverseBackgroundForced(true);
+
+            for(int i=11; i<=99; i++)
+                mDdds.add(String.valueOf(i));
+
+            ListView listDDD = (ListView) view.findViewById(R.id.listDDD);
+            listDDD.setAdapter(new DddAdapter(this, mDdds));
+
+            mDialogDDD.show();
+        }
+        return;
+    }
+
+    public void onClickListView(int position)
+    {
+        String ddd = mDdds.get(position);
+        AppController.getInstance().mDdd.saveDdd(ddd);
+        Crouton.makeText(this, getString(R.string.dddAddWithSuccess, ddd), Style.INFO).show();
+        if(mDialogDDD.isShowing())
+            mDialogDDD.dismiss();
+    }
+
 }
 

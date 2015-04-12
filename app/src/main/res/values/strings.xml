@@ -19,4 +19,11 @@
     <string name="logout">Sair</string>
     <string name="save">Gravar</string>
     <string name="notFount">Telefone não encontrado :(</string>
+    <string name="carrieOld">Operadora antiga:</string>
+    <string name="contact">Contato:</string>
+    <string name="phone">Número:</string>
+    <string name="chosenYourDdd">Escolha seu DDD:</string>
+    <string name="dddAddWithSuccess">\nDDD %s adicionado com sucesso!</string>
+    <string name="search">Buscar</string>
+    <string name="searchContact">Buscar contatos</string>
 </resources>
