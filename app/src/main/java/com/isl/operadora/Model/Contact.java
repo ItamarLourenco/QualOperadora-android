@@ -36,7 +36,7 @@ public class Contact {
     }
 
     public static ArrayList<Contact> getContacts(Activity act){
-        contacts = new ArrayList<>();
+        contacts = new ArrayList<Contact>();
         Cursor phones = act.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null,
                 null,

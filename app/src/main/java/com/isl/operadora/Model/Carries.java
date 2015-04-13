@@ -98,7 +98,7 @@ import java.util.Map;
  */
 
 public class Carries {
-    private static Map<Integer, Integer> mCarries = new HashMap<>();
+    private static Map<Integer, Integer> mCarries = new HashMap<Integer, Integer>();
 
     public static void generateCarries(){
         mCarries.put(55114, R.drawable.brasil_telecom);

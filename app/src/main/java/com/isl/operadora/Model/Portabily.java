@@ -72,7 +72,7 @@ public class Portabily {
         }
 
         public ArrayList<DataPortabily> getData() {
-            ArrayList<DataPortabily> dataPortabiliesList = new ArrayList<>(Arrays.asList(data));
+            ArrayList<DataPortabily> dataPortabiliesList = new ArrayList<DataPortabily>(Arrays.asList(data));
             return dataPortabiliesList;
         }
 

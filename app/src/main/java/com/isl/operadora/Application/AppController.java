@@ -2,6 +2,7 @@ package com.isl.operadora.Application;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +20,7 @@ public class AppController extends Application {
     private RequestQueue requestQueue;
     public static final Gson GSON = new Gson();
     public Ddd mDdd;
+    public EditText search;
 
     public final static String pubAdMob = "pub-2541702994665550";
 

@@ -3,24 +3,32 @@ package com.isl.operadora.Ui;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.isl.operadora.Adapter.DddAdapter;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Base.BaseActionBarActivity;
 import com.isl.operadora.Util.Logger;
+import com.isl.operadora.Util.Util;
 import com.isl.operadora.Widgets.CustomFontTextView;
 
 import java.util.ArrayList;
@@ -33,8 +41,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class MainActivity extends BaseActionBarActivity{
 
     private AlertDialog mDialogDDD;
-    public ArrayList<String> mDdds = new ArrayList<>();
-
+    public ArrayList<String> mDdds = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,18 +68,25 @@ public class MainActivity extends BaseActionBarActivity{
         title.setText(getTitle());
         title.setTypeface(getString(R.string.opensansregular));
 
-        final EditText search = (EditText) view.findViewById(R.id.search);
-        search.setOnClickListener(new View.OnClickListener(){
+        final ImageView imageSearch = (ImageView) view.findViewById(R.id.imageSearch);
+
+        AppController.getInstance().search = (EditText) view.findViewById(R.id.search);
+        imageSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.t("TESTE");
-                title.setVisibility(View.GONE);
-                search.setVisibility(View.VISIBLE);
+                if (title.getVisibility() == View.VISIBLE) {
+                    title.setVisibility(View.GONE);
+                    AppController.getInstance().search.setVisibility(View.VISIBLE);
+                    AppController.getInstance().search.requestFocus();
+                    Util.showKeyboard();
+                } else {
+                    title.setVisibility(View.VISIBLE);
+                    AppController.getInstance().search.setVisibility(View.GONE);
+                    Util.hideKeyboard(AppController.getInstance().search);
+                }
             }
         });
-
         getSupportActionBar().setCustomView(view);
-
     }
 
 

@@ -3,7 +3,9 @@ package com.isl.operadora.Ui;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
 
     public StickyListHeadersListView mListView;
     public ArrayList<Contact> mContacts;
+    public ArrayList<Contact> contactsForSearch;
 
     private LinearLayout mLoadingLinear;
     private LinearLayout mCarriesLinear;
@@ -79,6 +82,30 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
         mListView.setAdapter(new ContactAdapter(this, getActivity(), mContacts));
 
+        if(AppController.getInstance().search != null)
+        {
+            AppController.getInstance().search.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void afterTextChanged(Editable s) {}
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    contactsForSearch = new ArrayList<Contact>();
+                    for(Contact contact : mContacts)
+                    {
+                        if(contact.getName().toLowerCase().contains(s.toString().toLowerCase()))
+                        {
+                            contactsForSearch.add(contact);
+                        }
+                    }
+                    mListView.setAdapter(new ContactAdapter(ContactsFragment.this, getActivity(), contactsForSearch));
+                }
+            });
+        }
+
         return view;
     }
 
@@ -121,7 +148,11 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
 
         mDialog.show();
 
-        searchNumber(mContacts.get(position));
+        if(contactsForSearch == null){
+            searchNumber(mContacts.get(position));
+        }else{
+            searchNumber(contactsForSearch.get(position));
+        }
     }
 
     public void searchNumber(final Contact contact){

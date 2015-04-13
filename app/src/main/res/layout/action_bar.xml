@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -13,27 +15,54 @@
     <com.isl.operadora.Widgets.CustomFontTextView
         android:id="@+id/title"
         android:textColor="#FFF"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="20dp"
-        android:layout_weight="1"
-        android:gravity="center_vertical" />
-
-
-    <EditText
-        android:visibility="gone"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textColor="#FFF"
-        android:id="@+id/search"/>
-
-    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_search"
         android:layout_marginTop="8dp"
-        android:rotation="90"
-        android:id="@+id/imageSearch" />
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView" />
 
-</LinearLayout>
+
+    <com.andexert.library.RippleView
+        android:id="@+id/item"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        ripple:rv_type="rectangle"
+        ripple:rv_rippleDuration="80"
+        android:gravity="center"
+        ripple:rv_color="#FFF">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_search"
+            android:rotation="90"
+            android:id="@+id/imageSearch" />
+
+    </com.andexert.library.RippleView>
+
+    <EditText
+        android:textSize="14dp"
+        android:textColor="#FFF"
+        android:maxLines="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:id="@+id/search"
+        android:background="@drawable/apptheme_edit_text_holo_light"
+        android:backgroundTint="@drawable/apptheme_edit_text_holo_light"
+        android:visibility="gone"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignLeft="@+id/title"
+        android:layout_alignStart="@+id/title" />
+
+
+</RelativeLayout>
