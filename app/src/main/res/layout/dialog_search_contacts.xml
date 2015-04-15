@@ -25,7 +25,7 @@
                 android:background="#1E88E5" />
 
             <com.isl.operadora.Widgets.CustomFontTextView
-                android:id="@+id/laoding"
+                android:id="@+id/loadingText"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:textColor="#1E88E5"
@@ -51,6 +51,25 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             android:id="@+id/carries">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_action_call"/>
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_action_email"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

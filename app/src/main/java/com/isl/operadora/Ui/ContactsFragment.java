@@ -1,6 +1,7 @@
 package com.isl.operadora.Ui;
 
 import android.app.AlertDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -48,6 +49,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     private CustomFontTextView mCarrieOld;
     private CustomFontTextView mContact;
     private CustomFontTextView mPhone;
+    private CustomFontTextView mLoadingText;
 
     private ButtonFlat mButtonLougout;
     private ButtonFlat mButtonLougoutNotFound;
@@ -152,19 +154,19 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         mCarrieOld = (CustomFontTextView) view.findViewById(R.id.carrieOld);
         mContact = (CustomFontTextView) view.findViewById(R.id.contact);
         mPhone = (CustomFontTextView) view.findViewById(R.id.phone);
+        mLoadingText = (CustomFontTextView) view.findViewById(R.id.loadingText);
 
         mDialog.show();
 
         if(contactsForSearch == null)
         {
             currentContact = mContacts.get(position);
-            searchNumber(currentContact);
         }
         else
         {
-            currentContact = mContacts.get(position);
-            searchNumber(currentContact);
+            currentContact = contactsForSearch.get(position);
         }
+        searchNumber(currentContact);
     }
 
     public void searchNumber(final Contact contact){
@@ -251,9 +253,6 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.save:
-                if(mDialog.isShowing())
-                    mDialog.dismiss();
-
                 editContact();
                 break;
 
@@ -266,15 +265,37 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
 
     private void editContact()
     {
-        String newLabel = currentContact.getLabel() + " ("+currentContact.getCarrier()+")";
-        if(Contact.eddLabelNumber(currentContact.getId(), currentContact.getNumber(), newLabel))
+        if(getView() != null)
         {
-            Crouton.makeText(getActivity(), R.string.contactEdited, Style.CONFIRM).show();
+            mLoadingLinear.setVisibility(View.VISIBLE);
+            mCarriesLinear.setVisibility(View.GONE);
+            mLoadingText.setText(R.string.editContact);
         }
-        else
-        {
-            Crouton.makeText(getActivity(), R.string.contactNotEdited, Style.ALERT).show();
-        }
+        new AsyncTask<Boolean, Void,Boolean>(){
+            @Override
+            protected Boolean doInBackground(Boolean... params)
+            {
+                String newLabel = currentContact.getLabel() + " ("+currentContact.getCarrier()+")";
+                return Contact.eddLabelNumber(currentContact.getId(), currentContact.getNumber(), newLabel);
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean)
+            {
+                super.onPostExecute(aBoolean);
+                if(aBoolean)
+                {
+                    Crouton.makeText(getActivity(), R.string.contactEdited, Style.CONFIRM).show();
+                }
+                else
+                {
+                    Crouton.makeText(getActivity(), R.string.contactNotEdited, Style.ALERT).show();
+                }
+
+                if(mDialog.isShowing())
+                    mDialog.dismiss();
+            }
+        }.execute();
     }
 
     private void notFound()

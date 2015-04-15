@@ -27,6 +27,7 @@
     <string name="search">Buscar</string>
     <string name="searchContact">Buscar contatos</string>
     <string name="defaultLabel">Celular</string>
-    <string name="contactEdited">Contato editado \\ncom sucesso!</string>
-    <string name="contactNotEdited">Contato não editado. \\nPor favor tente novamente.</string>
+    <string name="contactEdited">Contato editado \ncom sucesso!</string>
+    <string name="contactNotEdited">Contato não editado. \nPor favor tente novamente.</string>
+    <string name="editContact">Alterando contato.</string>
 </resources>

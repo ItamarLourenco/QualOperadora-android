@@ -1,10 +1,10 @@
 package com.isl.operadora.Util;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -12,7 +12,6 @@ import com.isl.operadora.Application.AppController;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
 /**
  * Created by webx on 08/04/15.
@@ -47,18 +46,21 @@ public class Util {
     }
 
     public static final String formatPhone(String phone, String ddd){
-        phone = phone.replace(" ", "").replace("-", "").replace("+55", "").replaceAll("[ ./-]", "");
-        if(phone.substring(0, 1).equals("0"))
+        if(!TextUtils.isEmpty(phone))
         {
-            phone = new StringBuffer(phone).deleteCharAt(0).toString();
-        }
-        if(phone.length() == 9)
-        {
-            phone = ddd+phone;
-        }
-        if(phone.length() == 8)
-        {
-            phone = ddd+phone;
+            phone = phone.replace(" ", "").replace("-", "").replace("+55", "").replaceAll("[ ./-]", "");
+            if(phone.substring(0, 1).equals("0"))
+            {
+                phone = new StringBuffer(phone).deleteCharAt(0).toString();
+            }
+            if(phone.length() == 9)
+            {
+                phone = ddd+phone;
+            }
+            if(phone.length() == 8)
+            {
+                phone = ddd+phone;
+            }
         }
 
         return phone;
