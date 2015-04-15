@@ -267,7 +267,14 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     private void editContact()
     {
         String newLabel = currentContact.getLabel() + " ("+currentContact.getCarrier()+")";
-        Contact.eddLabelNumber(currentContact.getId(), currentContact.getNumber(), newLabel);
+        if(Contact.eddLabelNumber(currentContact.getId(), currentContact.getNumber(), newLabel))
+        {
+            Crouton.makeText(getActivity(), R.string.contactEdited, Style.CONFIRM).show();
+        }
+        else
+        {
+            Crouton.makeText(getActivity(), R.string.contactNotEdited, Style.ALERT).show();
+        }
     }
 
     private void notFound()
