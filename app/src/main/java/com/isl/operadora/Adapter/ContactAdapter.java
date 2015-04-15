@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
- * Created by webx on 08/04/15.
+ * Createcd by webx on 08/04/15.
  */
 public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
@@ -73,6 +73,9 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
         myViewHolder.number = (TextView) convertView.findViewById(R.id.number);
         myViewHolder.number.setText(getItem(position).getNumber());
 
+        myViewHolder.label = (TextView) convertView.findViewById(R.id.label);
+        myViewHolder.label.setText(getItem(position).getLabel());
+
         return convertView;
     }
 
@@ -100,6 +103,7 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
     private class MyViewHolder {
         public TextView name;
         public TextView number;
+        public TextView label;
         public RippleView item;
     }
 

@@ -13,9 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.gc.materialdesign.views.ButtonFlat;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
 import com.isl.operadora.Adapter.ContactAdapter;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Model.Carries;
@@ -23,7 +20,6 @@ import com.isl.operadora.Model.Contact;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
 import com.isl.operadora.Request.ContactRequest;
-import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Util;
 import com.isl.operadora.Widgets.CustomFontTextView;
 
@@ -58,10 +54,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     private ButtonFlat mButtonSave;
 
     private ImageView mCarrieImage;
-
     private AlertDialog mDialog;
 
-    public static ContactsFragment newInstance() {
+    private Contact currentContact;
+
+    public static ContactsFragment newInstance()
+    {
         ContactsFragment fragment = new ContactsFragment();
         return fragment;
     }
@@ -84,6 +82,11 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
 
         if(AppController.getInstance().search != null)
         {
+            if(AppController.getInstance().search.getText().length() > 0)
+            {
+                searchContacts(AppController.getInstance().search.getText());
+            }
+
             AppController.getInstance().search.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void afterTextChanged(Editable s) {}
@@ -93,20 +96,24 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    contactsForSearch = new ArrayList<Contact>();
-                    for(Contact contact : mContacts)
-                    {
-                        if(contact.getName().toLowerCase().contains(s.toString().toLowerCase()))
-                        {
-                            contactsForSearch.add(contact);
-                        }
-                    }
-                    mListView.setAdapter(new ContactAdapter(ContactsFragment.this, getActivity(), contactsForSearch));
+                    searchContacts(s);
                 }
             });
         }
-
         return view;
+    }
+
+    private void searchContacts(CharSequence s)
+    {
+        contactsForSearch = new ArrayList<Contact>();
+        for(Contact contact : mContacts)
+        {
+            if(contact.getName().toLowerCase().contains(s.toString().toLowerCase()))
+            {
+                contactsForSearch.add(contact);
+            }
+        }
+        mListView.setAdapter(new ContactAdapter(ContactsFragment.this, getActivity(), contactsForSearch));
     }
 
     public void onClickListView(int position)
@@ -148,10 +155,15 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
 
         mDialog.show();
 
-        if(contactsForSearch == null){
-            searchNumber(mContacts.get(position));
-        }else{
-            searchNumber(contactsForSearch.get(position));
+        if(contactsForSearch == null)
+        {
+            currentContact = mContacts.get(position);
+            searchNumber(currentContact);
+        }
+        else
+        {
+            currentContact = mContacts.get(position);
+            searchNumber(currentContact);
         }
     }
 
@@ -173,32 +185,46 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
                             mLoadingLinear.setVisibility(View.GONE);
                             mCarriesLinear.setVisibility(View.VISIBLE);
 
-                            if(!TextUtils.isEmpty(dataPortabily.getRn1())){
+                            if(!TextUtils.isEmpty(dataPortabily.getRn1()))
+                            {
                                 mCarrieImage.setImageResource(
                                         Carries.getCarreiImage(dataPortabily.getRn1())
                                 );
                             }
 
-                            if(!TextUtils.isEmpty(dataPortabily.getOperadoraAnterior())){
+                            if(!TextUtils.isEmpty(dataPortabily.getOperadoraAnterior()))
+                            {
                                 mCarrieOld.setText(" " + dataPortabily.getOperadoraAnterior());
-                            }else{
+                            }
+                            else
+                            {
                                 mLabelCarrieOld.setVisibility(View.GONE);
                             }
 
-                            if(TextUtils.isEmpty(dataPortabily.getOperadora())) {
+                            if(TextUtils.isEmpty(dataPortabily.getOperadora()))
+                            {
                                 notFound(); return;
-                            }else{
+                            }
+                            else
+                            {
+                                currentContact.setCarrier(dataPortabily.getOperadora());
                                 mCarrie.setText(" " + dataPortabily.getOperadora());
                             }
-                            if(dataPortabily.isPortabilidade()) {
+                            if(dataPortabily.isPortabilidade())
+                            {
                                 mPortabilty.setText(" " + getString(R.string.yes));
-                            }else{
+                            }
+                            else
+                            {
                                 mPortabilty.setText(" " + getString(R.string.no));
                             }
 
-                            if(!TextUtils.isEmpty(dataPortabily.getDate())){
+                            if(!TextUtils.isEmpty(dataPortabily.getDate()))
+                            {
                                 mWhen.setText(" " + dataPortabily.getDate());
-                            }else{
+                            }
+                            else
+                            {
                                 wLabelCanvas.setVisibility(View.GONE);
                             }
                         }
@@ -215,8 +241,10 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.logout:
                 if(mDialog.isShowing())
                     mDialog.dismiss();
@@ -225,6 +253,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
             case R.id.save:
                 if(mDialog.isShowing())
                     mDialog.dismiss();
+
+                editContact();
                 break;
 
             case R.id.logoutNotFount:
@@ -234,7 +264,14 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    private void notFound() {
+    private void editContact()
+    {
+        String newLabel = currentContact.getLabel() + " ("+currentContact.getCarrier()+")";
+        Contact.eddLabelNumber(currentContact.getId(), currentContact.getNumber(), newLabel);
+    }
+
+    private void notFound()
+    {
         mCarriesLinear.setVisibility(View.GONE);
         mNotFound.setVisibility(View.VISIBLE);
         return;

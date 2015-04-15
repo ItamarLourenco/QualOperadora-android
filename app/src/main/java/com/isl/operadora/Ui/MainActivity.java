@@ -1,38 +1,27 @@
 package com.isl.operadora.Ui;
 
 import android.app.AlertDialog;
-import android.app.SearchManager;
-import android.content.Context;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.isl.operadora.Adapter.DddAdapter;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Base.BaseActionBarActivity;
-import com.isl.operadora.Util.Logger;
+import com.isl.operadora.R;
 import com.isl.operadora.Util.Util;
 import com.isl.operadora.Widgets.CustomFontTextView;
 
 import java.util.ArrayList;
-import com.isl.operadora.R;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -44,7 +33,7 @@ public class MainActivity extends BaseActionBarActivity{
     public ArrayList<String> mDdds = new ArrayList<String>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -56,10 +45,10 @@ public class MainActivity extends BaseActionBarActivity{
         tabs.setViewPager(pager);
 
         checkIfConfiguredDdd();
+
     }
 
-    private void setActionBar()
-    {
+    private void setActionBar(){
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -132,8 +121,7 @@ public class MainActivity extends BaseActionBarActivity{
         }
     }
 
-    private void checkIfConfiguredDdd()
-    {
+    private void checkIfConfiguredDdd(){
         if(TextUtils.isEmpty(AppController.getInstance().mDdd.getDDD()))
         {
             mDialogDDD = new AlertDialog.Builder(AppController.getInstance()).create();
@@ -161,6 +149,5 @@ public class MainActivity extends BaseActionBarActivity{
         if(mDialogDDD.isShowing())
             mDialogDDD.dismiss();
     }
-
 }
 

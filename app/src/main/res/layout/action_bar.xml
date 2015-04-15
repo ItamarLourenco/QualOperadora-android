@@ -14,7 +14,7 @@
 
     <com.isl.operadora.Widgets.CustomFontTextView
         android:id="@+id/title"
-        android:textColor="#FFF"
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -35,7 +35,7 @@
         ripple:rv_type="rectangle"
         ripple:rv_rippleDuration="80"
         android:gravity="center"
-        ripple:rv_color="#FFF">
+        ripple:rv_color="@android:color/white">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -55,7 +55,6 @@
         android:singleLine="true"
         android:id="@+id/search"
         android:background="@drawable/apptheme_edit_text_holo_light"
-        android:backgroundTint="@drawable/apptheme_edit_text_holo_light"
         android:visibility="gone"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"

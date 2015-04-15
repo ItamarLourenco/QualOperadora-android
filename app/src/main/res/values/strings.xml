@@ -26,4 +26,5 @@
     <string name="dddAddWithSuccess">\nDDD %s adicionado com sucesso!</string>
     <string name="search">Buscar</string>
     <string name="searchContact">Buscar contatos</string>
+    <string name="defaultLabel">Celular</string>
 </resources>

@@ -57,12 +57,4 @@
         <item name="dropDownListViewStyle">@style/DropDownListView.Qualoperadora</item>
     </style>
 
-    <style name="Base.Widget.AppCompat.EditText.Qualoperadora" parent="@style/Widget.AppCompat.EditText">
-        <item name="colorControlNormal">#c5c5c5</item>
-        <item name="colorControlActivated">#FFF</item>
-        <item name="colorControlHighlight">#FFF</item>
-    </style>
-
-
-
 </resources>
