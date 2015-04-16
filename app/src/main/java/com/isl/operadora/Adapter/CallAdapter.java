@@ -8,39 +8,40 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.andexert.library.RippleView;
-import com.isl.operadora.Model.Contact;
+import com.isl.operadora.Model.Calls;
 import com.isl.operadora.R;
-import com.isl.operadora.Ui.ContactsFragment;
+import com.isl.operadora.Ui.CallFragment;
 
 import java.util.ArrayList;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
- * Createcd by webx on 08/04/15.
+ * Created by webx on 15/04/15.
  */
-public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+public class CallAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
-    public Activity mActivity;
-    public ContactsFragment mFragment;
-    public ArrayList<Contact> mContacts;
-    public LayoutInflater mInflater;
+    private CallFragment mCallFragment;
+    private Activity mActivity;
+    private ArrayList<Calls> mCalls;
+    private LayoutInflater mInflater;
 
-    public ContactAdapter(ContactsFragment fragment, Activity act, ArrayList<Contact> contacts){
-        mActivity = act;
-        mContacts = contacts;
-        mInflater = LayoutInflater.from(act);
-        mFragment = fragment;
+    public CallAdapter(CallFragment callFragment, Activity activity, ArrayList<Calls> calls)
+    {
+        this.mCallFragment = callFragment;
+        this.mActivity = activity;
+        this.mCalls = calls;
+        this.mInflater = LayoutInflater.from(activity);
     }
 
     @Override
     public int getCount() {
-        return mContacts.size();
+        return mCalls.size();
     }
 
     @Override
-    public Contact getItem(int position) {
-        return mContacts.get(position);
+    public Calls getItem(int position) {
+        return mCalls.get(position);
     }
 
     @Override
@@ -51,32 +52,33 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         MyViewHolder myViewHolder;
-        if(convertView == null) {
+        if(convertView == null)
+        {
             convertView = mInflater.inflate(R.layout.list_contacts, null);
-
             myViewHolder = new MyViewHolder();
 
-            myViewHolder.item = (RippleView) convertView.findViewById(R.id.item);
             myViewHolder.name = (TextView) convertView.findViewById(R.id.name);
-            myViewHolder.number = (TextView) convertView.findViewById(R.id.number);
             myViewHolder.label = (TextView) convertView.findViewById(R.id.label);
-
+            myViewHolder.number = (TextView) convertView.findViewById(R.id.number);
+            myViewHolder.item = (RippleView) convertView.findViewById(R.id.item);
 
             convertView.setTag(myViewHolder);
-        }else{
+        }
+        else
+        {
             myViewHolder = (MyViewHolder) convertView.getTag();
         }
 
         myViewHolder.item.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                mFragment.onClickListView(position);
+                mCallFragment.onClickListView(position);
             }
         });
 
-        myViewHolder.name.setText(getItem(position).getName());
-        myViewHolder.number.setText(getItem(position).getNumber());
-        myViewHolder.label.setText(getItem(position).getLabel());
+        myViewHolder.name.setText(getItem(position).getNumber());
+        myViewHolder.number.setVisibility(View.GONE);
+        myViewHolder.label.setText(String.valueOf(getItem(position).getDuration()));
 
         return convertView;
     }
@@ -92,14 +94,14 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        String headerText = String.valueOf(getItem(position).getName().subSequence(0, 1).charAt(0));
+        String headerText = String.valueOf(getItem(position).getNumber().subSequence(0, 1).charAt(0));
         holder.text.setText(headerText);
         return convertView;
     }
 
     @Override
     public long getHeaderId(int position) {
-        return mContacts.get(position).getName().subSequence(0, 1).charAt(0);
+        return mCalls.get(position).getNumber().subSequence(0, 1).charAt(0);
     }
 
     private class MyViewHolder {

@@ -26,7 +26,6 @@
     </style>
 
     <style name="PopupMenu.Qualoperadora" parent="@style/Widget.AppCompat.Light.PopupMenu">
-        <item name="android:popupBackground">@drawable/menu_dropdown_panel_qualoperadora</item>
     </style>
 
     <style name="DropDownListView.Qualoperadora" parent="@style/Widget.AppCompat.Light.ListView.DropDown">

@@ -1,13 +1,17 @@
 package com.isl.operadora.Ui;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -54,6 +58,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     private ButtonFlat mButtonLougout;
     private ButtonFlat mButtonLougoutNotFound;
     private ButtonFlat mButtonSave;
+    private ButtonFlat mOptions;
 
     private ImageView mCarrieImage;
     private AlertDialog mDialog;
@@ -155,6 +160,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         mContact = (CustomFontTextView) view.findViewById(R.id.contact);
         mPhone = (CustomFontTextView) view.findViewById(R.id.phone);
         mLoadingText = (CustomFontTextView) view.findViewById(R.id.loadingText);
+        mOptions = (ButtonFlat) view.findViewById(R.id.options);
+        mOptions.setOnClickListener(this);
 
         mDialog.show();
 
@@ -260,6 +267,10 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
                 if(mDialog.isShowing())
                     mDialog.dismiss();
                 break;
+
+            case R.id.options:
+                openMenuPopUp();
+                break;
         }
     }
 
@@ -303,5 +314,34 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         mCarriesLinear.setVisibility(View.GONE);
         mNotFound.setVisibility(View.VISIBLE);
         return;
+    }
+
+    private void openMenuPopUp()
+    {
+        PopupMenu popup = new PopupMenu(getActivity(), mOptions);
+        popup.getMenuInflater().inflate(R.menu.opcoes, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+        {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem)
+            {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.call:
+                        startActivity(
+                            new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + currentContact.getNumber()))
+                        );
+                        break;
+
+                    case R.id.sms:
+                        startActivity(
+                            new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + currentContact.getName()))
+                        );
+                        break;
+                }
+                return false;
+            }
+        });
+        popup.show();
     }
 }

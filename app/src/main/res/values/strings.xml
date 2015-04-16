@@ -30,4 +30,8 @@
     <string name="contactEdited">Contato editado \ncom sucesso!</string>
     <string name="contactNotEdited">Contato não editado. \nPor favor tente novamente.</string>
     <string name="editContact">Alterando contato.</string>
+    <string name="options">Opções</string>
+    <string name="x">X</string>
+    <string name="sms">Enviar SMS</string>
+    <string name="call">Fazer Ligar</string>
 </resources>
