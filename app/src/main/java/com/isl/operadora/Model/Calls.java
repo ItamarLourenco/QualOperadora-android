@@ -18,6 +18,7 @@ public class Calls {
     private int type;
     private String name;
     private String when;
+    private String carrier;
     private static ArrayList<Calls> mCalls;
 
     public Calls(String number, String duration, int type, String name, String when){
@@ -68,11 +69,18 @@ public class Calls {
         this.when = when;
     }
 
+    public void setCarrier(String carrier){
+        this.carrier = carrier;
+    }
+
+    public String getCarrier(){
+        return carrier;
+    }
+
     public static ArrayList<Calls> getCalls()
     {
         mCalls = new ArrayList<Calls>();
 
-        StringBuffer sb = new StringBuffer();
         Cursor managedCursor = AppController.getInstance().getContentResolver().query(CallLog.Calls.CONTENT_URI,null, null,null, CallLog.Calls._ID + " DESC");
         int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER );
         int type = managedCursor.getColumnIndex( CallLog.Calls.TYPE );
