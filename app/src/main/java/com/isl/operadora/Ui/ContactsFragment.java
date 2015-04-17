@@ -118,9 +118,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         contactsForSearch = new ArrayList<Contact>();
         for(Contact contact : mContacts)
         {
-            if(contact.getName().toLowerCase().contains(s.toString().toLowerCase()))
+            if(contact.getName() != null)
             {
-                contactsForSearch.add(contact);
+                if(contact.getName().toLowerCase().contains(s.toString().toLowerCase()))
+                {
+                    contactsForSearch.add(contact);
+                }
             }
         }
         mContactAdapter = new ContactAdapter(ContactsFragment.this, getActivity(), contactsForSearch);
@@ -164,9 +167,9 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         mContact = (CustomFontTextView) view.findViewById(R.id.contact);
         mPhone = (CustomFontTextView) view.findViewById(R.id.phone);
         mLoadingText = (CustomFontTextView) view.findViewById(R.id.loadingText);
-        mButtonCall = (ButtonFlat) view.findViewById(R.id.call);;
+        mButtonCall = (ButtonFlat) view.findViewById(R.id.call);
         mButtonCall.setOnClickListener(this);
-        mSmsCall = (ButtonFlat) view.findViewById(R.id.sms);;
+        mSmsCall = (ButtonFlat) view.findViewById(R.id.sms);
         mSmsCall.setOnClickListener(this);
 
         mDialog.show();

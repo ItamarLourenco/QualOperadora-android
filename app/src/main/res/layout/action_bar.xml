@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
     <ImageView
@@ -46,6 +47,7 @@
 
     </com.andexert.library.RippleView>
 
+
     <EditText
         android:textSize="14dp"
         android:textColor="#FFF"
@@ -56,7 +58,9 @@
         android:id="@+id/search"
         android:background="@drawable/apptheme_edit_text_holo_light"
         android:visibility="gone"
-        android:layout_marginLeft="50dp"
+        android:textColorHint="#FFF"
+        android:hint="@string/search"
+        android:layout_marginLeft="40dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="5dp"
         android:layout_alignParentTop="true"

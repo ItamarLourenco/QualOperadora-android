@@ -75,13 +75,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCalls = Calls.getCalls();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_call, container, false);
-
-        mCalls = Calls.getCalls();
 
         mListView = (ListView) view.findViewById(R.id.listView);
         mListView.setAdapter(new CallAdapter(this, getActivity(), mCalls));
@@ -114,9 +113,12 @@ public class CallFragment extends BaseFragment implements View.OnClickListener{
         mCallsSearchs = new ArrayList<Calls>();
         for(Calls call : mCalls)
         {
-            if(call.getName().toLowerCase().contains(s.toString().toLowerCase()))
+            if(call.getName() != null)
             {
-                mCallsSearchs.add(call);
+                if(call.getName().toLowerCase().contains(s.toString().toLowerCase()))
+                {
+                    mCallsSearchs.add(call);
+                }
             }
         }
         mCallAdapter = new CallAdapter(CallFragment.this, getActivity(), mCallsSearchs);
@@ -160,9 +162,9 @@ public class CallFragment extends BaseFragment implements View.OnClickListener{
         mCall = (CustomFontTextView) view.findViewById(R.id.contact);
         mPhone = (CustomFontTextView) view.findViewById(R.id.phone);
         mLoadingText = (CustomFontTextView) view.findViewById(R.id.loadingText);
-        mButtonCall = (ButtonFlat) view.findViewById(R.id.call);;
+        mButtonCall = (ButtonFlat) view.findViewById(R.id.call);
         mButtonCall.setOnClickListener(this);
-        mSmsCall = (ButtonFlat) view.findViewById(R.id.sms);;
+        mSmsCall = (ButtonFlat) view.findViewById(R.id.sms);
         mSmsCall.setOnClickListener(this);
 
         mDialog.show();
@@ -197,7 +199,6 @@ public class CallFragment extends BaseFragment implements View.OnClickListener{
                             else
                             {
                                 mCall.setText(" " + call.getName());
-                                mButtonSave.setVisibility(View.GONE);
                             }
 
                             mPhone.setText(" " + call.getNumber());

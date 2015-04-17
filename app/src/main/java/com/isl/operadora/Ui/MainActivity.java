@@ -64,6 +64,7 @@ public class MainActivity extends BaseActionBarActivity{
             @Override
             public void onClick(View v) {
                 if (title.getVisibility() == View.VISIBLE) {
+                    imageSearch.setImageResource(R.drawable.ic_action_remove);
                     title.setVisibility(View.GONE);
                     AppController.getInstance().search.setVisibility(View.VISIBLE);
                     AppController.getInstance().search.requestFocus();
@@ -72,6 +73,7 @@ public class MainActivity extends BaseActionBarActivity{
                     title.setVisibility(View.VISIBLE);
                     AppController.getInstance().search.setVisibility(View.GONE);
                     Util.hideKeyboard(AppController.getInstance().search);
+                    imageSearch.setImageResource(R.drawable.ic_action_search);
                 }
             }
         });
