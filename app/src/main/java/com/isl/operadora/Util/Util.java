@@ -12,6 +12,8 @@ import com.isl.operadora.Application.AppController;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+import java.util.regex.Pattern;
 
 /**
  * Created by webx on 08/04/15.
@@ -66,19 +68,56 @@ public class Util {
         return phone;
     }
 
-    public static boolean isNetworkAvailable() {
+    public static boolean isNetworkAvailable()
+    {
         ConnectivityManager connectivityManager = (ConnectivityManager) AppController.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public static void showKeyboard(){
+    public static void showKeyboard()
+    {
         InputMethodManager imm = (InputMethodManager) AppController.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
     }
 
-    public static void hideKeyboard(EditText editText){
+    public static void hideKeyboard(EditText editText)
+    {
         InputMethodManager imm = (InputMethodManager) AppController.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
+
+     public static String addLabel(String label, String carrier)
+     {
+        String str;
+        if(TextUtils.isEmpty(label))
+        {
+            str = "(" + carrier + ")";
+        }
+        else
+        {
+            Pattern regex = Pattern.compile("\\(.+?\\)");
+            if(regex.matcher(label).find())
+            {
+                str = label.replaceAll("\\(.+?\\)", "("+carrier+")");
+            }
+            else
+            {
+                str = label + " ("+carrier+")";
+            }
+
+        }
+        return str;
+     }
+
+    public static String dateToString(java.util.Date date)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+
+        return calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.YEAR) + " "
+                + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
+
     }
 }

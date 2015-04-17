@@ -8,7 +8,6 @@ import android.os.RemoteException;
 import android.provider.ContactsContract;
 
 import com.isl.operadora.Application.AppController;
-import com.isl.operadora.R;
 
 import java.util.ArrayList;
 
@@ -99,11 +98,7 @@ public class Contact {
                 int id = phones.getInt(phones.getColumnIndex(ContactsContract.Data.RAW_CONTACT_ID));
                 String name = phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                 String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                String label = ContactsContract.CommonDataKinds.Phone.getTypeLabel(
-                        AppController.getInstance().getResources(),
-                        phones.getInt(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE)),
-                        AppController.getInstance().getString(R.string.defaultLabel)
-                ).toString();
+                String label = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
                 int type = phones.getInt(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
                 contacts.add(new Contact(id, name, phoneNumber, label, type));
             }
@@ -125,7 +120,7 @@ public class Contact {
                     .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contactNumber)
                     .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_CUSTOM)
                     .withValue(ContactsContract.CommonDataKinds.Phone.LABEL, newLabel)
-                    .build());
+                .build());
             try
             {
                 AppController.getInstance().getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);

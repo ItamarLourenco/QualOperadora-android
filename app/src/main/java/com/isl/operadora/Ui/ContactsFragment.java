@@ -6,12 +6,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -58,10 +56,12 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     private ButtonFlat mButtonLougout;
     private ButtonFlat mButtonLougoutNotFound;
     private ButtonFlat mButtonSave;
-    private ButtonFlat mOptions;
+    private ButtonFlat mButtonCall;
+    private ButtonFlat mSmsCall;
 
     private ImageView mCarrieImage;
     private AlertDialog mDialog;
+    private ContactAdapter mContactAdapter;
 
     private Contact currentContact;
 
@@ -79,13 +79,16 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
 
         mContacts = Contact.getContacts(getActivity());
 
         mListView = (StickyListHeadersListView) view.findViewById(R.id.listView);
-        mListView.setAdapter(new ContactAdapter(this, getActivity(), mContacts));
+
+        mContactAdapter = new ContactAdapter(this, getActivity(), mContacts);
+        mListView.setAdapter(mContactAdapter);
 
         if(AppController.getInstance().search != null)
         {
@@ -120,7 +123,8 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
                 contactsForSearch.add(contact);
             }
         }
-        mListView.setAdapter(new ContactAdapter(ContactsFragment.this, getActivity(), contactsForSearch));
+        mContactAdapter = new ContactAdapter(ContactsFragment.this, getActivity(), contactsForSearch);
+        mListView.setAdapter(mContactAdapter);
     }
 
     public void onClickListView(int position)
@@ -160,8 +164,10 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
         mContact = (CustomFontTextView) view.findViewById(R.id.contact);
         mPhone = (CustomFontTextView) view.findViewById(R.id.phone);
         mLoadingText = (CustomFontTextView) view.findViewById(R.id.loadingText);
-        mOptions = (ButtonFlat) view.findViewById(R.id.options);
-        mOptions.setOnClickListener(this);
+        mButtonCall = (ButtonFlat) view.findViewById(R.id.call);;
+        mButtonCall.setOnClickListener(this);
+        mSmsCall = (ButtonFlat) view.findViewById(R.id.sms);;
+        mSmsCall.setOnClickListener(this);
 
         mDialog.show();
 
@@ -268,25 +274,32 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
                     mDialog.dismiss();
                 break;
 
-            case R.id.options:
-                openMenuPopUp();
+            case R.id.call:
+                startActivity(
+                        new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + currentContact.getNumber()))
+                );
+                break;
+
+            case R.id.sms:
+                startActivity(
+                        new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + currentContact.getName()))
+                );
                 break;
         }
     }
 
     private void editContact()
     {
-        if(getView() != null)
+        mLoadingLinear.setVisibility(View.VISIBLE);
+        mCarriesLinear.setVisibility(View.GONE);
+        mLoadingText.setText(R.string.editContact);
+
+        new AsyncTask<Boolean, Void,Boolean>()
         {
-            mLoadingLinear.setVisibility(View.VISIBLE);
-            mCarriesLinear.setVisibility(View.GONE);
-            mLoadingText.setText(R.string.editContact);
-        }
-        new AsyncTask<Boolean, Void,Boolean>(){
             @Override
             protected Boolean doInBackground(Boolean... params)
             {
-                String newLabel = currentContact.getLabel() + " ("+currentContact.getCarrier()+")";
+                String newLabel = Util.addLabel(currentContact.getLabel(), currentContact.getCarrier());
                 return Contact.eddLabelNumber(currentContact.getId(), currentContact.getNumber(), newLabel);
             }
 
@@ -305,6 +318,10 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
 
                 if(mDialog.isShowing())
                     mDialog.dismiss();
+
+                currentContact.setLabel(Util.addLabel(currentContact.getLabel(), currentContact.getCarrier()));
+                mContactAdapter.notifyDataSetChanged();
+
             }
         }.execute();
     }
@@ -313,35 +330,5 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     {
         mCarriesLinear.setVisibility(View.GONE);
         mNotFound.setVisibility(View.VISIBLE);
-        return;
-    }
-
-    private void openMenuPopUp()
-    {
-        PopupMenu popup = new PopupMenu(getActivity(), mOptions);
-        popup.getMenuInflater().inflate(R.menu.opcoes, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
-        {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem)
-            {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.call:
-                        startActivity(
-                            new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + currentContact.getNumber()))
-                        );
-                        break;
-
-                    case R.id.sms:
-                        startActivity(
-                            new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + currentContact.getName()))
-                        );
-                        break;
-                }
-                return false;
-            }
-        });
-        popup.show();
     }
 }

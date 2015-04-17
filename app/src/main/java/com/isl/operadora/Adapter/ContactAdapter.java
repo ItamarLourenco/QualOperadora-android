@@ -99,7 +99,7 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
 
     @Override
     public long getHeaderId(int position) {
-        return mContacts.get(position).getName().subSequence(0, 1).charAt(0);
+        return getItem(position).getName().subSequence(0, 1).charAt(0);
     }
 
     private class MyViewHolder {
