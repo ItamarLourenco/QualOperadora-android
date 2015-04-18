@@ -85,6 +85,7 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="fbutton-1.0.5" level="project" />
     <orderEntry type="library" exported="" name="play-services-plus-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-base-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-panorama-7.0.0" level="project" />
@@ -102,9 +103,9 @@
     <orderEntry type="library" exported="" name="play-services-wearable-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-wallet-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="play-services-cast-7.0.0" level="project" />
+    <orderEntry type="library" exported="" name="play-services-maps-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="flatui-3.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-22.0.0" level="project" />
-    <orderEntry type="library" exported="" name="play-services-maps-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="pagerslidingtabstrip-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="play-services-fitness-7.0.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
