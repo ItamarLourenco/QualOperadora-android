@@ -1,19 +1,29 @@
 package com.isl.operadora.Ui;
 
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.andexert.library.RippleView;
 import com.isl.operadora.Base.BaseFragment;
 import com.isl.operadora.R;
 import com.isl.operadora.Util.Logger;
+import com.isl.operadora.Util.Mask;
 
 public class ConsultsFragment extends BaseFragment implements View.OnClickListener{
+
     private EditText mTextPhone;
+    private ImageView mBackSpace;
+
     public static ConsultsFragment newInstance() {
         ConsultsFragment fragment = new ConsultsFragment();
         return fragment;
@@ -33,7 +43,17 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.fragment_consult, container, false);
 
         mTextPhone = (EditText) view.findViewById(R.id.textPhone);
+        mBackSpace = (ImageView) view.findViewById(R.id.backspace);
+        mBackSpace.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mTextPhone.setText("");
+                return false;
+            }
+        });
+        
 
+        mBackSpace.setOnClickListener(this);
         ((Button) view.findViewById(R.id.one)).setOnClickListener(this);
         ((Button) view.findViewById(R.id.two)).setOnClickListener(this);
         ((Button) view.findViewById(R.id.tree)).setOnClickListener(this);
@@ -71,6 +91,24 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
                     break;
             }
         }
+        else if(v instanceof ImageView)
+        {
+            switch (v.getId())
+            {
+                case R.id.backspace:
+                    onBackSpace();
+                    break;
+            }
+        }
+    }
 
+    private void onBackSpace() {
+        if(!TextUtils.isEmpty(mTextPhone.getText()))
+        {
+            StringBuffer stringBuffer = new StringBuffer(mTextPhone.getText());
+            stringBuffer.deleteCharAt(stringBuffer.length() - 1);
+            mTextPhone.setText(stringBuffer.toString().trim());
+            mTextPhone.setSelection(mTextPhone.getText().length());
+        }
     }
 }
