@@ -35,4 +35,6 @@
     <string name="sms">SMS</string>
     <string name="call">Ligar</string>
     <string name="unknow">Desconhecido</string>
+    <string name="searchCarrier">Buscar Operadora</string>
+    <string name="keyboardingNumber">Digite um número</string>
 </resources>
