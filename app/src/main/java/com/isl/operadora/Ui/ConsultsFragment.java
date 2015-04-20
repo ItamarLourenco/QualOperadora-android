@@ -14,10 +14,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.andexert.library.RippleView;
+import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Base.BaseFragment;
+import com.isl.operadora.Model.Carries;
+import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
+import com.isl.operadora.Request.ContactRequest;
 import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Mask;
+import com.isl.operadora.Util.Util;
 
 public class ConsultsFragment extends BaseFragment implements View.OnClickListener{
 
@@ -44,6 +49,7 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
 
         mTextPhone = (EditText) view.findViewById(R.id.textPhone);
         mBackSpace = (ImageView) view.findViewById(R.id.backspace);
+        mTextPhone.addTextChangedListener(Mask.insert("(##)#####-####", mTextPhone));
         mBackSpace.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -51,22 +57,20 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
                 return false;
             }
         });
-        
-
         mBackSpace.setOnClickListener(this);
-        ((Button) view.findViewById(R.id.one)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.two)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.tree)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.four)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.five)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.six)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.seven)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.eight)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.nine)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.zero)).setOnClickListener(this);
 
-        ((RippleView) view.findViewById(R.id.call)).setOnClickListener(this);
-        ((RippleView) view.findViewById(R.id.search)).setOnClickListener(this);
+        view.findViewById(R.id.one).setOnClickListener(this);
+        view.findViewById(R.id.two).setOnClickListener(this);
+        view.findViewById(R.id.tree).setOnClickListener(this);
+        view.findViewById(R.id.four).setOnClickListener(this);
+        view.findViewById(R.id.five).setOnClickListener(this);
+        view.findViewById(R.id.six).setOnClickListener(this);
+        view.findViewById(R.id.seven).setOnClickListener(this);
+        view.findViewById(R.id.eight).setOnClickListener(this);
+        view.findViewById(R.id.nine).setOnClickListener(this);
+        view.findViewById(R.id.zero).setOnClickListener(this);
+        view.findViewById(R.id.call).setOnClickListener(this);
+        view.findViewById(R.id.search).setOnClickListener(this);
 
         return view;
     }
@@ -87,7 +91,7 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
                     break;
 
                 case R.id.search:
-                    Logger.t("BUSCAR");
+                    searchPhone();
                     break;
             }
         }
@@ -102,7 +106,9 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void onBackSpace() {
+
+    private void onBackSpace()
+    {
         if(!TextUtils.isEmpty(mTextPhone.getText()))
         {
             StringBuffer stringBuffer = new StringBuffer(mTextPhone.getText());
@@ -110,5 +116,26 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
             mTextPhone.setText(stringBuffer.toString().trim());
             mTextPhone.setSelection(mTextPhone.getText().length());
         }
+    }
+
+    private void searchPhone()
+    {
+        String number = mTextPhone.getText().toString();
+        number = Util.clearNumber(number);
+
+        new ContactRequest(new String[] { number })
+        {
+            @Override
+            public void onFinish(Portabily.PushPortabily portabily)
+            {
+                if(portabily != null)
+                {
+                    for (Portabily.PushPortabily.DataPortabily dataPortabily : portabily.getData())
+                    {
+                        Logger.t(dataPortabily.getOperadora());
+                    }
+                }
+            }
+        };
     }
 }

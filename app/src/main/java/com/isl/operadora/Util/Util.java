@@ -4,7 +4,9 @@ package com.isl.operadora.Util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -78,7 +80,7 @@ public class Util {
     public static void showKeyboard()
     {
         InputMethodManager imm = (InputMethodManager) AppController.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     public static void hideKeyboard(EditText editText)
@@ -115,9 +117,18 @@ public class Util {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
 
+        String year = String.valueOf(calendar.get(Calendar.YEAR));
+        String month = String.valueOf(calendar.get(Calendar.MONTH) < 10 ? "0"+calendar.get(Calendar.MONTH) : calendar.get(Calendar.MONTH));
+        String dayOfMonth = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) < 10 ? "0"+calendar.get(Calendar.DAY_OF_MONTH) : calendar.get(Calendar.DAY_OF_MONTH));
 
-        return calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.YEAR) + " "
-                + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE) + ":" + calendar.get(Calendar.SECOND);
+        String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY) < 10 ? "0"+calendar.get(Calendar.HOUR_OF_DAY) : calendar.get(Calendar.HOUR_OF_DAY));
+        String minute = String.valueOf(calendar.get(Calendar.MINUTE) < 10 ? "0"+calendar.get(Calendar.MINUTE) : calendar.get(Calendar.MINUTE));
+        String second = String.valueOf(calendar.get(Calendar.SECOND) < 10 ? "0"+calendar.get(Calendar.SECOND) : calendar.get(Calendar.SECOND));
 
+        return dayOfMonth + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second;
+    }
+
+    public static String clearNumber(String number) {
+        return number.replace("(", "").replace(")", "").replace("-", "").replace(" ", "");
     }
 }
