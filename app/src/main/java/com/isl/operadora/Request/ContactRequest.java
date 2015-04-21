@@ -14,7 +14,7 @@ import com.isl.operadora.Util.Util;
  */
 public abstract class ContactRequest {
 
-    private final String url = "http://54.191.245.5/qualOperadora/web/index.php?r=api/portabilidade";
+    private final String url = "http://54.200.133.35/qualOperadora/web/index.php?r=api/portabilidade";
     private static final String security = "#@qu4l0pe4d0r4@#";
 
     public ContactRequest(final String[] phones){

@@ -11,21 +11,16 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import com.gc.materialdesign.views.ButtonFlat;
 import com.isl.operadora.Adapter.CallAdapter;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Base.BaseFragment;
 import com.isl.operadora.Model.Calls;
-import com.isl.operadora.Model.Carries;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
 import com.isl.operadora.Request.ContactRequest;
 import com.isl.operadora.Util.Util;
-import com.isl.operadora.Widgets.CustomFontTextView;
 
 import java.util.ArrayList;
 
@@ -34,28 +29,6 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class CallFragment extends BaseFragment implements View.OnClickListener{
 
-
-    private LinearLayout mLoadingLinear;
-    private LinearLayout mCarriesLinear;
-    private LinearLayout mNotFound;
-    private LinearLayout wLabelCanvas;
-    private LinearLayout mLabelCarrieOld;
-
-    private CustomFontTextView mCarrie;
-    private CustomFontTextView mPortabilty;
-    private CustomFontTextView mWhen;
-    private CustomFontTextView mCarrieOld;
-    private CustomFontTextView mCall;
-    private CustomFontTextView mPhone;
-    private CustomFontTextView mLoadingText;
-
-    private ButtonFlat mButtonLougout;
-    private ButtonFlat mButtonLougoutNotFound;
-    private ButtonFlat mButtonSave;
-    private ButtonFlat mButtonCall;
-    private ButtonFlat mSmsCall;
-
-    private ImageView mCarrieImage;
     private AlertDialog mDialog;
     private CallAdapter mCallAdapter;
 
@@ -134,39 +107,10 @@ public class CallFragment extends BaseFragment implements View.OnClickListener{
         }
 
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_search_contacts, null);
-
         mDialog = new AlertDialog.Builder( getActivity() ).create();
         mDialog.setView(view);
         mDialog.setInverseBackgroundForced(true);
-
-        mLoadingLinear = (LinearLayout) view.findViewById(R.id.loading);
-        mCarriesLinear = (LinearLayout) view.findViewById(R.id.carries);
-
-        mCarrie = (CustomFontTextView) view.findViewById(R.id.carrie);
-        mCarrie.setTypeface(getString(R.string.opensansregular));
-        mPortabilty = (CustomFontTextView) view.findViewById(R.id.portabilty);
-        mPortabilty.setTypeface(getString(R.string.opensansregular));
-        mWhen = (CustomFontTextView) view.findViewById(R.id.when);
-        mWhen.setTypeface(getString(R.string.opensansregular));
-        wLabelCanvas = (LinearLayout) view.findViewById(R.id.labelCanvas);
-        mCarrieImage = (ImageView) view.findViewById(R.id.carrieImage);
-        mButtonLougout = (ButtonFlat) view.findViewById(R.id.logout);
-        mButtonLougout.setOnClickListener(this);
-        mButtonSave = (ButtonFlat) view.findViewById(R.id.save);
-        mButtonSave.setOnClickListener(this);
-        mNotFound = (LinearLayout) view.findViewById(R.id.notFound);
-        mButtonLougoutNotFound = (ButtonFlat) view.findViewById(R.id.logoutNotFount);
-        mButtonLougoutNotFound.setOnClickListener(this);
-        mLabelCarrieOld = (LinearLayout) view.findViewById(R.id.labelCarrieOld);
-        mCarrieOld = (CustomFontTextView) view.findViewById(R.id.carrieOld);
-        mCall = (CustomFontTextView) view.findViewById(R.id.contact);
-        mPhone = (CustomFontTextView) view.findViewById(R.id.phone);
-        mLoadingText = (CustomFontTextView) view.findViewById(R.id.loadingText);
-        mButtonCall = (ButtonFlat) view.findViewById(R.id.call);
-        mButtonCall.setOnClickListener(this);
-        mSmsCall = (ButtonFlat) view.findViewById(R.id.sms);
-        mSmsCall.setOnClickListener(this);
-
+        DialogCustom.loadViews(view, this);
         mDialog.show();
 
         if(mCallsSearchs == null)
@@ -186,77 +130,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener{
             @Override
             public void onFinish(Portabily.PushPortabily portabily)
             {
-                if(portabily != null)
-                {
-                    for(Portabily.PushPortabily.DataPortabily dataPortabily : portabily.getData())
-                    {
-                        if(dataPortabily != null)
-                        {
-                            if(TextUtils.isEmpty(call.getName()))
-                            {
-                                mCall.setText(" " + getString(R.string.unknow));
-                            }
-                            else
-                            {
-                                mCall.setText(" " + call.getName());
-                            }
-
-                            mPhone.setText(" " + call.getNumber());
-
-                            mLoadingLinear.setVisibility(View.GONE);
-                            mCarriesLinear.setVisibility(View.VISIBLE);
-
-                            if(!TextUtils.isEmpty(dataPortabily.getRn1()))
-                            {
-                                mCarrieImage.setImageResource(
-                                        Carries.getCarreiImage(dataPortabily.getRn1())
-                                );
-                            }
-
-                            if(!TextUtils.isEmpty(dataPortabily.getOperadoraAnterior()))
-                            {
-                                mCarrieOld.setText(" " + dataPortabily.getOperadoraAnterior());
-                            }
-                            else
-                            {
-                                mLabelCarrieOld.setVisibility(View.GONE);
-                            }
-
-                            if(TextUtils.isEmpty(dataPortabily.getOperadora()))
-                            {
-                                notFound(); return;
-                            }
-                            else
-                            {
-                                mCarrie.setText(" " + dataPortabily.getOperadora());
-                                call.setCarrier(dataPortabily.getOperadora());
-                            }
-                            if(dataPortabily.isPortabilidade())
-                            {
-                                mPortabilty.setText(" " + getString(R.string.yes));
-                            }
-                            else
-                            {
-                                mPortabilty.setText(" " + getString(R.string.no));
-                            }
-
-                            if(!TextUtils.isEmpty(dataPortabily.getDate()))
-                            {
-                                mWhen.setText(" " + dataPortabily.getDate());
-                            }
-                            else
-                            {
-                                wLabelCanvas.setVisibility(View.GONE);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    mLoadingLinear.setVisibility(View.GONE);
-                    mCarriesLinear.setVisibility(View.VISIBLE);
-                    notFound(); return;
-                }
+                DialogCustom.populateViewCalls(portabily, call, currentCall);
             }
         };
     }
@@ -294,7 +168,8 @@ public class CallFragment extends BaseFragment implements View.OnClickListener{
         }
     }
 
-    private void addContact() {
+    private void addContact()
+    {
         Intent intent = new Intent(Intent.ACTION_INSERT);
         intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
 
@@ -307,11 +182,5 @@ public class CallFragment extends BaseFragment implements View.OnClickListener{
         intent.putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, currentCall.getCarrier());
 
         getActivity().startActivity(intent);
-    }
-
-    private void notFound()
-    {
-        mCarriesLinear.setVisibility(View.GONE);
-        mNotFound.setVisibility(View.VISIBLE);
     }
 }

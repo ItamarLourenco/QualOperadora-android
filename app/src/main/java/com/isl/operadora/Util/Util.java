@@ -4,9 +4,7 @@ package com.isl.operadora.Util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -52,22 +50,33 @@ public class Util {
     public static final String formatPhone(String phone, String ddd){
         if(!TextUtils.isEmpty(phone))
         {
-            phone = phone.replace(" ", "").replace("-", "").replace("+55", "").replaceAll("[ ./-]", "");
+            phone = phone.replace(" ", "").replace("-", "").replace("+55", "").replaceAll("[ ./-]", "").replace("(", "").replace(")", "");
+
             if(phone.substring(0, 1).equals("0"))
             {
-                phone = new StringBuffer(phone).deleteCharAt(0).toString();
+                phone = phone.substring(1);
             }
-            if(phone.length() == 9)
+            if(phone.substring(0, 2).equals("55"))
             {
-                phone = ddd+phone;
+                phone = phone.substring(2);
             }
-            if(phone.length() == 8)
-            {
-                phone = ddd+phone;
-            }
-        }
 
-        return phone;
+            if(phone.length() == 8) // TELEFONE FIXO SEM DDD
+            {
+                phone = ddd+phone;
+            }
+            else if(phone.length() == 9) // CELULAR SEM DDD
+            {
+                phone = ddd+phone;
+            }
+            /*
+            else if(phone.length() == 10) // TELEFONE FIXO COM DDD
+            {}
+            else if(phone.length() == 11) // CELULAR COM DDD
+            {}
+            */
+        }
+        return phone.trim();
     }
 
     public static boolean isNetworkAvailable()
@@ -118,7 +127,7 @@ public class Util {
         calendar.setTime(date);
 
         String year = String.valueOf(calendar.get(Calendar.YEAR));
-        String month = String.valueOf(calendar.get(Calendar.MONTH) < 10 ? "0"+calendar.get(Calendar.MONTH) : calendar.get(Calendar.MONTH));
+        String month = String.valueOf((calendar.get(Calendar.MONTH) +1) < 10 ? "0"+(calendar.get(Calendar.MONTH)+1) : (calendar.get(Calendar.MONTH) + 1));
         String dayOfMonth = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) < 10 ? "0"+calendar.get(Calendar.DAY_OF_MONTH) : calendar.get(Calendar.DAY_OF_MONTH));
 
         String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY) < 10 ? "0"+calendar.get(Calendar.HOUR_OF_DAY) : calendar.get(Calendar.HOUR_OF_DAY));

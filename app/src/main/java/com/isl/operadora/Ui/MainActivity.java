@@ -45,7 +45,6 @@ public class MainActivity extends BaseActionBarActivity{
         tabs.setViewPager(pager);
 
         checkIfConfiguredDdd();
-
     }
 
     private void setActionBar(){
@@ -70,6 +69,7 @@ public class MainActivity extends BaseActionBarActivity{
                     AppController.getInstance().search.requestFocus();
                     Util.showKeyboard();
                 } else {
+                    AppController.getInstance().search.setText("");
                     title.setVisibility(View.VISIBLE);
                     AppController.getInstance().search.setVisibility(View.GONE);
                     Util.hideKeyboard(AppController.getInstance().search);

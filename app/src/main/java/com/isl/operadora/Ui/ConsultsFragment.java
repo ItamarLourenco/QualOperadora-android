@@ -1,9 +1,13 @@
 package com.isl.operadora.Ui;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.os.Vibrator;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnLongClickListener;
@@ -11,23 +15,55 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import com.andexert.library.RippleView;
+import com.gc.materialdesign.views.ButtonFlat;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Base.BaseFragment;
-import com.isl.operadora.Model.Carries;
+import com.isl.operadora.Model.Calls;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
 import com.isl.operadora.Request.ContactRequest;
-import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Mask;
 import com.isl.operadora.Util.Util;
+import com.isl.operadora.Widgets.CustomFontTextView;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ConsultsFragment extends BaseFragment implements View.OnClickListener{
 
     private EditText mTextPhone;
     private ImageView mBackSpace;
+
+    private Vibrator vibrator;
+
+
+    private LinearLayout mLoadingLinear;
+    private LinearLayout mCarriesLinear;
+    private LinearLayout mNotFound;
+    private LinearLayout wLabelCanvas;
+    private LinearLayout mLabelCarrieOld;
+
+    private CustomFontTextView mCarrie;
+    private CustomFontTextView mPortabilty;
+    private CustomFontTextView mWhen;
+    private CustomFontTextView mCarrieOld;
+    private CustomFontTextView mPhone;
+    private CustomFontTextView mLoadingText;
+
+    private ButtonFlat mButtonLougout;
+    private ButtonFlat mButtonLougoutNotFound;
+    private ButtonFlat mButtonSave;
+    private ButtonFlat mButtonCall;
+    private ButtonFlat mSmsCall;
+
+    private ImageView mCarrieImage;
+    private AlertDialog mDialog;
+
+    private String carrier;
+
 
     public static ConsultsFragment newInstance() {
         ConsultsFragment fragment = new ConsultsFragment();
@@ -47,6 +83,8 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_consult, container, false);
 
+        vibrator = (Vibrator) AppController.getInstance().getSystemService(Context.VIBRATOR_SERVICE);
+
         mTextPhone = (EditText) view.findViewById(R.id.textPhone);
         mBackSpace = (ImageView) view.findViewById(R.id.backspace);
         mTextPhone.addTextChangedListener(Mask.insert("(##)#####-####", mTextPhone));
@@ -58,6 +96,7 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
             }
         });
         mBackSpace.setOnClickListener(this);
+
 
         view.findViewById(R.id.one).setOnClickListener(this);
         view.findViewById(R.id.two).setOnClickListener(this);
@@ -75,38 +114,6 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
         return view;
     }
 
-    @Override
-    public void onClick(View v) {
-        if(v instanceof Button)
-        {
-            Button button = (Button) v;
-            mTextPhone.append(button.getText());
-        }
-        else if(v instanceof RippleView)
-        {
-            switch (v.getId())
-            {
-                case R.id.call:
-                    Logger.t("CALL");
-                    break;
-
-                case R.id.search:
-                    searchPhone();
-                    break;
-            }
-        }
-        else if(v instanceof ImageView)
-        {
-            switch (v.getId())
-            {
-                case R.id.backspace:
-                    onBackSpace();
-                    break;
-            }
-        }
-    }
-
-
     private void onBackSpace()
     {
         if(!TextUtils.isEmpty(mTextPhone.getText()))
@@ -118,24 +125,125 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
+    private void showDialog()
+    {
+        if(!Util.isNetworkAvailable())
+        {
+            Crouton.makeText(getActivity(), R.string.error, Style.ALERT).show();
+            return;
+        }
+
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_search_contacts, null);
+
+        mDialog = new AlertDialog.Builder( getActivity() ).create();
+        mDialog.setView(view);
+        mDialog.setInverseBackgroundForced(true);
+        DialogCustom.loadViews(view, this);
+        mDialog.show();
+        searchPhone();
+    }
+
     private void searchPhone()
     {
-        String number = mTextPhone.getText().toString();
-        number = Util.clearNumber(number);
+        final String number = Util.clearNumber(mTextPhone.getText().toString());
 
-        new ContactRequest(new String[] { number })
-        {
+        new ContactRequest(new String[] { number }){
             @Override
             public void onFinish(Portabily.PushPortabily portabily)
             {
-                if(portabily != null)
+                Calls call = new Calls(number, "", 0, "", "");
+                DialogCustom.populateViewCalls(portabily, call, call);
+                if(DialogCustom.mLabelContact != null && DialogCustom.mLabelPhone != null)
                 {
-                    for (Portabily.PushPortabily.DataPortabily dataPortabily : portabily.getData())
-                    {
-                        Logger.t(dataPortabily.getOperadora());
-                    }
+                    DialogCustom.mLabelContact.setVisibility(View.GONE);
+                    DialogCustom.mLabelPhone.setVisibility(View.GONE);
                 }
             }
         };
+    }
+
+
+    @Override
+    public void onClick(View view)
+    {
+        if(view instanceof Button)
+        {
+            Button button = (Button) view;
+            mTextPhone.append(button.getText());
+            vibrator.vibrate(100);
+        }
+        else if(view instanceof RippleView)
+        {
+            switch (view.getId())
+            {
+                case R.id.call:
+                    startActivity(
+                            new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + Util.clearNumber(mTextPhone.getText().toString())))
+                    );
+                    vibrator.vibrate(100);
+                    break;
+
+                case R.id.search:
+                    showDialog();
+                    vibrator.vibrate(100);
+                    break;
+            }
+        }
+        else if(view instanceof ImageView)
+        {
+            switch (view.getId())
+            {
+                case R.id.backspace:
+                    onBackSpace();
+                    vibrator.vibrate(100);
+                    break;
+            }
+        }
+        else if(view instanceof ButtonFlat)
+        {
+            switch (view.getId())
+            {
+                case R.id.logout:
+                    if(mDialog.isShowing())
+                        mDialog.dismiss();
+                    break;
+
+                case R.id.save:
+                    addContact();
+                    break;
+
+                case R.id.call:
+                    startActivity(
+                            new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + Util.clearNumber(mTextPhone.getText().toString()) ))
+                    );
+                    break;
+
+                case R.id.sms:
+                    startActivity(
+                            new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + Util.clearNumber(mTextPhone.getText().toString()) ))
+                    );
+                    break;
+
+                case R.id.logoutNotFount:
+                    if(mDialog.isShowing())
+                        mDialog.dismiss();
+                    break;
+            }
+        }
+    }
+
+    private void addContact()
+    {
+        Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE, Util.clearNumber(mTextPhone.getText().toString()));
+
+        if(carrier == null){
+            carrier = "";
+        }
+        intent.putExtra(ContactsContract.Intents.Insert.PHONE_TYPE, carrier);
+
+        getActivity().startActivity(intent);
     }
 }

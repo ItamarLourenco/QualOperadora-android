@@ -10,6 +10,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.isl.operadora.SharedPreferences.Ddd;
 
+
+
 /**
  * Created by webx on 08/04/15.
  */
@@ -22,13 +24,12 @@ public class AppController extends Application {
     public Ddd mDdd;
     public EditText search;
 
-    public final static String pubAdMob = "pub-2541702994665550";
+    public final static String pubAdMob = "ca-app-pub-2541702994665550/3303361023";
 
     @Override
     public void onCreate(){
         super.onCreate();
         appController = this;
-
         mDdd = new Ddd();
     }
 
@@ -40,7 +41,6 @@ public class AppController extends Application {
         if(requestQueue == null){
             requestQueue = Volley.newRequestQueue(getApplicationContext());
         }
-
         return requestQueue;
     }
 
