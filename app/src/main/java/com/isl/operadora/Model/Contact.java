@@ -2,12 +2,15 @@ package com.isl.operadora.Model;
 
 import android.app.Activity;
 import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 
 import com.isl.operadora.Application.AppController;
+import com.isl.operadora.R;
 
 import java.util.ArrayList;
 
@@ -162,5 +165,29 @@ public class Contact {
             }
         }
         return false;
+    }
+
+    public static String getContactDisplayNameByNumber(String number)
+    {
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        String name = AppController.getInstance().getString(R.string.unknow);
+
+        ContentResolver contentResolver = AppController.getInstance().getContentResolver();
+        Cursor contactLookup = contentResolver.query(uri, new String[] {ContactsContract.PhoneLookup._ID,
+                ContactsContract.PhoneLookup.DISPLAY_NAME }, null, null, null);
+        try {
+            if (contactLookup != null && contactLookup.getCount() > 0)
+            {
+                contactLookup.moveToNext();
+                name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+            }
+        } finally {
+            if (contactLookup != null)
+            {
+                contactLookup.close();
+            }
+        }
+
+        return name;
     }
 }
