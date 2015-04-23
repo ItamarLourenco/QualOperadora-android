@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory
+        android:summary="@string/showNotificationAndToast"
+        android:title="@string/showNotificationAndToast" >
+        <CheckBoxPreference
+            android:key="checkBox"
+            android:title="@string/showNotificationInfo"
+            android:summary="@string/showNotificationInfo2" />
+
+        <CheckBoxPreference
+            android:key="checkBox"
+            android:title="@string/showToastsInfo"
+            android:summary="@string/showToastsInfo2" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:summary="@string/settingDDD"
+        android:title="@string/settingDDD" >
+
+        <ListPreference
+            android:entries="@array/listOptions"
+            android:entryValues="@array/listValues"
+            android:key="listpref"
+            android:title="@string/settingDDD" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

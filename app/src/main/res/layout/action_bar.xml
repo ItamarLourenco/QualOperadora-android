@@ -25,29 +25,8 @@
         android:layout_toEndOf="@+id/imageView" />
 
 
-    <!--<com.andexert.library.RippleView-->
-        <!--android:layout_width="50dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--ripple:rv_type="rectangle"-->
-        <!--ripple:rv_rippleDuration="80"-->
-        <!--android:gravity="center"-->
-        <!--ripple:rv_color="@android:color/white">-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@drawable/ic_action_settings"-->
-            <!--android:rotation="90"-->
-            <!--android:id="@+id/imageSetting" />-->
-
-    <!--</com.andexert.library.RippleView>-->
-
     <com.andexert.library.RippleView
-        android:id="@+id/item"
+        android:id="@+id/setting"
         android:layout_width="50dp"
         android:layout_height="40dp"
         android:layout_marginTop="4dp"
@@ -58,6 +37,26 @@
         ripple:rv_rippleDuration="80"
         android:gravity="center"
         ripple:rv_color="@android:color/white">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_action_overflow"
+            android:id="@+id/imageSetting" />
+
+    </com.andexert.library.RippleView>
+
+    <com.andexert.library.RippleView
+        android:id="@+id/item"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        ripple:rv_type="rectangle"
+        ripple:rv_rippleDuration="80"
+        android:gravity="center"
+        ripple:rv_color="@android:color/white"
+        android:layout_alignTop="@+id/setting"
+        android:layout_toLeftOf="@+id/setting"
+        android:layout_toStartOf="@+id/setting">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -81,8 +80,8 @@
         android:visibility="gone"
         android:textColorHint="#FFF"
         android:hint="@string/search"
-        android:layout_marginLeft="80dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="100dp"
         android:layout_marginTop="5dp"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/title"

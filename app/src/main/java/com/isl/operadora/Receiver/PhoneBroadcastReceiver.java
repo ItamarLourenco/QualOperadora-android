@@ -1,22 +1,28 @@
 package com.isl.operadora.Receiver;
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.isl.operadora.Application.AppController;
+import com.isl.operadora.Model.Carries;
+import com.isl.operadora.Model.Contact;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
 import com.isl.operadora.Request.ContactRequest;
-import com.isl.operadora.Ui.DialogCustom;
 import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Util;
 
@@ -24,6 +30,8 @@ import com.isl.operadora.Util.Util;
  * Created by webx on 22/04/15.
  */
 public class PhoneBroadcastReceiver extends BroadcastReceiver implements View.OnClickListener {
+    public AlertDialog mDialog;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         TelephonyManager telephony = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
@@ -34,34 +42,20 @@ public class PhoneBroadcastReceiver extends BroadcastReceiver implements View.On
 
         switch (telephony.getCallState()){
             case TelephonyManager.CALL_STATE_RINGING:
+                Logger.t("LIGUEI");
                 if(!TextUtils.isEmpty(phoneNr))
                 {
-                    String number = Util.formatPhone(phoneNr, "");
+                    final String number = Util.formatPhone(phoneNr, "");
                     new ContactRequest(new String[]{number})
                     {
                         @Override
                         public void onFinish(Portabily.PushPortabily portabily)
                         {
-                            if (portabily != null) {
+                            if(portabily != null)
+                            {
                                 for (Portabily.PushPortabily.DataPortabily dataPortabily : portabily.getData())
                                 {
-                                    LayoutInflater inflater = (LayoutInflater) AppController.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                                    AlertDialog mDialog = new AlertDialog.Builder(AppController.getInstance()).create();
-                                    View view = inflater.inflate(R.layout.dialog_search_contacts, null);
-                                    mDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
-                                    mDialog.setView(view);
-                                    DialogCustom.loadViews(view, PhoneBroadcastReceiver.this);
-                                    mDialog.setInverseBackgroundForced(false);
-                                    mDialog.show();
-
-//                                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(AppController.getInstance())
-//                                        .setSmallIcon(R.mipmap.ic_launcher)
-//                                        .setContentTitle(phoneNr +" - "+ Contact.getContactDisplayNameByNumber(phoneNr))
-//                                        .setContentText(dataPortabily.getOperadora());
-//
-//                                    NotificationManager mNotificationManager = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-//                                    mNotificationManager.notify(0, mBuilder.build());
-
+                                    showDialog(dataPortabily);
                                 }
                             }
                         }
@@ -70,13 +64,46 @@ public class PhoneBroadcastReceiver extends BroadcastReceiver implements View.On
                 break;
 
             case TelephonyManager.CALL_STATE_IDLE:
-                Logger.t("DESLIGOU");
                 break;
         }
     }
 
-    @Override
-    public void onClick(View v) {
+    private void showDialog(Portabily.PushPortabily.DataPortabily dataPortabily)
+    {
+        LayoutInflater inflater = (LayoutInflater) AppController.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        AppController.getInstance().getApplicationContext().setTheme(R.style.Theme_Qualoperadora);
+        View view = inflater.inflate(R.layout.dialog_toast_on_call, null);
 
+        ImageView imageView = (ImageView) view.findViewById(R.id.carrieImage);
+        imageView.setImageResource(
+                Carries.getCarreiImage(dataPortabily.getRn1())
+        );
+
+        TextView carrie = (TextView) view.findViewById(R.id.carrie);
+        carrie.setText(dataPortabily.getOperadora());
+        Toast toast = new Toast(AppController.getInstance());
+        toast.setView(view);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+        toast.show();
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(AppController.getInstance())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(dataPortabily.getPhone() + " - " + Contact.getContactDisplayNameByNumber(dataPortabily.getPhone()))
+                .setContentText(dataPortabily.getOperadora());
+        NotificationManager mNotificationManager = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(0, mBuilder.build());
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.logout:
+                if(mDialog.isShowing())
+                    mDialog.dismiss();
+                break;
+        }
     }
 }

@@ -13,6 +13,19 @@
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Qualoperadora</item>
     </style>
 
+    <style name="Theme.QualoperadoraDark" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="actionBarItemBackground">@drawable/selectable_background_qualoperadora</item>
+        <item name="popupMenuStyle">@style/PopupMenu.Qualoperadora</item>
+        <item name="dropDownListViewStyle">@style/DropDownListView.Qualoperadora</item>
+        <item name="actionBarTabStyle">@style/ActionBarTabStyle.Qualoperadora</item>
+        <item name="actionDropDownStyle">@style/DropDownNav.Qualoperadora</item>
+        <item name="actionBarStyle">@style/ActionBar.Solid.Qualoperadora</item>
+        <item name="actionModeBackground">@drawable/cab_background_top_qualoperadora</item>
+        <item name="actionModeSplitBackground">@drawable/cab_background_bottom_qualoperadora</item>
+        <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Qualoperadora</item>
+    </style>
+
     <style name="ActionBar.Solid.Qualoperadora" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="background">@drawable/ab_solid_qualoperadora</item>
         <item name="backgroundStacked">@drawable/ab_stacked_solid_qualoperadora</item>

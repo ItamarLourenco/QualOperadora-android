@@ -201,11 +201,11 @@ public class DialogCustom{
 
     public static void populateViewCalls(Portabily.PushPortabily portabily, Calls calls, Calls currentCalls) {
         hideLoad(false);
+
         if(portabily != null)
         {
             for(Portabily.PushPortabily.DataPortabily dataPortabily : portabily.getData())
             {
-
                 if(TextUtils.isEmpty(calls.getName()))
                 {
                     mContact.setText(" " + AppController.getInstance().getString(R.string.unknow));

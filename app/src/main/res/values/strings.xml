@@ -37,4 +37,14 @@
     <string name="unknow">Desconhecido</string>
     <string name="searchCarrier">Buscar Operadora</string>
     <string name="keyboardingNumber">Digite um número</string>
+    <string name="settings">Configurações</string>
+    <string name="showNotification">Mostrar notificações ?</string>
+    <string name="showNotificationInfo">Mostrar notificação quando </string>
+    <string name="showNotificationInfo2">receber uma ligação ?</string>
+    <string name="yesOrNot">Sim/Não</string>
+    <string name="showToasts">Mostrar avisos ?</string>
+    <string name="showToastsInfo">Mostrar aviso quando </string>
+    <string name="showToastsInfo2">receber uma ligação?</string>
+    <string name="showNotificationAndToast">Mostrar Notificações / Avisos ?</string>
+    <string name="settingDDD">Configurar DDD</string>
 </resources>

@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -57,7 +59,6 @@ public class MainActivity extends BaseActionBarActivity{
         title.setTypeface(getString(R.string.opensansregular));
 
         final ImageView imageSearch = (ImageView) view.findViewById(R.id.imageSearch);
-
         AppController.getInstance().search = (EditText) view.findViewById(R.id.search);
         imageSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +78,16 @@ public class MainActivity extends BaseActionBarActivity{
                 }
             }
         });
+
+        final ImageView imageSetting = (ImageView) view.findViewById(R.id.imageSetting);
+        imageSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickSetting(v);
+            }
+        });
+
+
         getSupportActionBar().setCustomView(view);
     }
 
@@ -150,6 +161,25 @@ public class MainActivity extends BaseActionBarActivity{
         Crouton.makeText(this, getString(R.string.dddAddWithSuccess, ddd), Style.INFO).show();
         if(mDialogDDD.isShowing())
             mDialogDDD.dismiss();
+    }
+
+    public void onClickSetting(View view)
+    {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        popupMenu.inflate(R.menu.menu_main);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.setting:
+                        startActivity(Preferences.newContent(MainActivity.this));
+                        break;
+                }
+                return false;
+            }
+        });
+        popupMenu.show();
     }
 }
 
