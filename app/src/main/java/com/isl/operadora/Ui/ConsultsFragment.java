@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.andexert.library.RippleView;
 import com.gc.materialdesign.views.ButtonFlat;
@@ -27,41 +26,17 @@ import com.isl.operadora.R;
 import com.isl.operadora.Request.ContactRequest;
 import com.isl.operadora.Util.Mask;
 import com.isl.operadora.Util.Util;
-import com.isl.operadora.Widgets.CustomFontTextView;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ConsultsFragment extends BaseFragment implements View.OnClickListener{
+    private int TIME_VIBRATE = 10;
 
     private EditText mTextPhone;
     private ImageView mBackSpace;
-
-    private Vibrator vibrator;
-
-
-    private LinearLayout mLoadingLinear;
-    private LinearLayout mCarriesLinear;
-    private LinearLayout mNotFound;
-    private LinearLayout wLabelCanvas;
-    private LinearLayout mLabelCarrieOld;
-
-    private CustomFontTextView mCarrie;
-    private CustomFontTextView mPortabilty;
-    private CustomFontTextView mWhen;
-    private CustomFontTextView mCarrieOld;
-    private CustomFontTextView mPhone;
-    private CustomFontTextView mLoadingText;
-
-    private ButtonFlat mButtonLougout;
-    private ButtonFlat mButtonLougoutNotFound;
-    private ButtonFlat mButtonSave;
-    private ButtonFlat mButtonCall;
-    private ButtonFlat mSmsCall;
-
-    private ImageView mCarrieImage;
+    private Vibrator mVibrator;
     private AlertDialog mDialog;
-
     private String carrier;
 
 
@@ -83,7 +58,7 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_consult, container, false);
 
-        vibrator = (Vibrator) AppController.getInstance().getSystemService(Context.VIBRATOR_SERVICE);
+        mVibrator = (Vibrator) AppController.getInstance().getSystemService(Context.VIBRATOR_SERVICE);
 
         mTextPhone = (EditText) view.findViewById(R.id.textPhone);
         mBackSpace = (ImageView) view.findViewById(R.id.backspace);
@@ -170,7 +145,7 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
         {
             Button button = (Button) view;
             mTextPhone.append(button.getText());
-            vibrator.vibrate(100);
+            mVibrator.vibrate(TIME_VIBRATE);
         }
         else if(view instanceof RippleView)
         {
@@ -180,12 +155,12 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
                     startActivity(
                             new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + Util.clearNumber(mTextPhone.getText().toString())))
                     );
-                    vibrator.vibrate(100);
+                    mVibrator.vibrate(TIME_VIBRATE);
                     break;
 
                 case R.id.search:
                     showDialog();
-                    vibrator.vibrate(100);
+                    mVibrator.vibrate(TIME_VIBRATE);
                     break;
             }
         }
@@ -195,7 +170,7 @@ public class ConsultsFragment extends BaseFragment implements View.OnClickListen
             {
                 case R.id.backspace:
                     onBackSpace();
-                    vibrator.vibrate(100);
+                    mVibrator.vibrate(TIME_VIBRATE);
                     break;
             }
         }

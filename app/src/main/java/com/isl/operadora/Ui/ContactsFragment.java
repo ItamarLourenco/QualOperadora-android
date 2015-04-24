@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.isl.operadora.Adapter.ContactAdapter;
 import com.isl.operadora.Application.AppController;
+import com.isl.operadora.Base.BaseFragment;
 import com.isl.operadora.Model.Contact;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
@@ -27,7 +27,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 
-public class ContactsFragment extends Fragment implements View.OnClickListener{
+public class ContactsFragment extends BaseFragment implements View.OnClickListener{
 
     public StickyListHeadersListView mListView;
     public ArrayList<Contact> mContacts;
@@ -125,7 +125,7 @@ public class ContactsFragment extends Fragment implements View.OnClickListener{
     }
 
     public void searchNumber(final Contact contact){
-        new ContactRequest(new String[] { Util.formatPhone(contact.getNumber(), AppController.getInstance().mDdd.getDDD()) })
+        new ContactRequest(new String[] { Util.formatPhone(contact.getNumber(), AppController.getInstance().getDDD()) })
         {
             @Override
             public void onFinish(Portabily.PushPortabily portabily)

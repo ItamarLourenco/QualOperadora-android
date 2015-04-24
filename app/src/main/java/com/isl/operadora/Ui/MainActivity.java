@@ -1,6 +1,7 @@
 package com.isl.operadora.Ui;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -135,7 +136,7 @@ public class MainActivity extends BaseActionBarActivity{
     }
 
     private void checkIfConfiguredDdd(){
-        if(TextUtils.isEmpty(AppController.getInstance().mDdd.getDDD()))
+        if(TextUtils.isEmpty(AppController.getInstance().mSharedPreferences.getString(Preferences.settingDDD, "")))
         {
             mDialogDDD = new AlertDialog.Builder(AppController.getInstance()).create();
             View view = getLayoutInflater().inflate(R.layout.list_ddd, null);
@@ -143,8 +144,9 @@ public class MainActivity extends BaseActionBarActivity{
             mDialogDDD.setView(view);
             mDialogDDD.setInverseBackgroundForced(true);
 
-            for(int i=11; i<=99; i++)
+            for(int i=11; i<=99; i++){
                 mDdds.add(String.valueOf(i));
+            }
 
             ListView listDDD = (ListView) view.findViewById(R.id.listDDD);
             listDDD.setAdapter(new DddAdapter(this, mDdds));
@@ -157,7 +159,8 @@ public class MainActivity extends BaseActionBarActivity{
     public void onClickListView(int position)
     {
         String ddd = mDdds.get(position);
-        AppController.getInstance().mDdd.saveDdd(ddd);
+        SharedPreferences.Editor editor = AppController.getInstance().mSharedPreferences.edit();
+        editor.putString(Preferences.settingDDD, ddd);
         Crouton.makeText(this, getString(R.string.dddAddWithSuccess, ddd), Style.INFO).show();
         if(mDialogDDD.isShowing())
             mDialogDDD.dismiss();

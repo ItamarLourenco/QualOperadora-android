@@ -125,7 +125,7 @@ public class CallFragment extends BaseFragment implements View.OnClickListener{
     }
 
     public void searchNumber(final Calls call){
-        new ContactRequest(new String[] { Util.formatPhone(call.getNumber(), AppController.getInstance().mDdd.getDDD()) })
+        new ContactRequest(new String[] { Util.formatPhone(call.getNumber(), AppController.getInstance().getDDD()) })
         {
             @Override
             public void onFinish(Portabily.PushPortabily portabily)

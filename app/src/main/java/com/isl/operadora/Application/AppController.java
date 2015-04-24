@@ -1,6 +1,8 @@
 package com.isl.operadora.Application;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.widget.EditText;
 
@@ -8,8 +10,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.isl.operadora.SharedPreferences.Ddd;
-
+import com.isl.operadora.Ui.Preferences;
 
 
 /**
@@ -21,8 +22,8 @@ public class AppController extends Application {
     private static AppController appController;
     private RequestQueue requestQueue;
     public static final Gson GSON = new Gson();
-    public Ddd mDdd;
     public EditText search;
+    public SharedPreferences mSharedPreferences;
 
     public final static String pubAdMob = "ca-app-pub-2541702994665550/3303361023";
 
@@ -30,7 +31,7 @@ public class AppController extends Application {
     public void onCreate(){
         super.onCreate();
         appController = this;
-        mDdd = new Ddd();
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     }
 
     public static synchronized AppController getInstance(){
@@ -53,5 +54,10 @@ public class AppController extends Application {
         request.setTag(TAG);
         getRequestQueue().add(request);
     }
+
+    public String getDDD(){
+        return AppController.getInstance().mSharedPreferences.getString(Preferences.settingDDD, "");
+    }
+
 
 }

@@ -4,12 +4,12 @@
         android:summary="@string/showNotificationAndToast"
         android:title="@string/showNotificationAndToast" >
         <CheckBoxPreference
-            android:key="checkBox"
+            android:key="showNotification"
             android:title="@string/showNotificationInfo"
             android:summary="@string/showNotificationInfo2" />
 
         <CheckBoxPreference
-            android:key="checkBox"
+            android:key="showToast"
             android:title="@string/showToastsInfo"
             android:summary="@string/showToastsInfo2" />
 
@@ -20,9 +20,9 @@
         android:title="@string/settingDDD" >
 
         <ListPreference
+            android:key="settingDDD"
             android:entries="@array/listOptions"
             android:entryValues="@array/listValues"
-            android:key="listpref"
             android:title="@string/settingDDD" />
 
     </PreferenceCategory>
