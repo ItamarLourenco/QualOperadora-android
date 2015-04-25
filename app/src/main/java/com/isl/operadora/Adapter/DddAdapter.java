@@ -1,6 +1,5 @@
 package com.isl.operadora.Adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +9,17 @@ import android.widget.TextView;
 import com.andexert.library.RippleView;
 import com.isl.operadora.R;
 import com.isl.operadora.Ui.MainActivity;
-import com.isl.operadora.Widgets.CustomFontTextView;
-
-import java.util.ArrayList;
 
 /**
  * Created by itamarlourenco on 11/04/15.
  */
 public class DddAdapter extends BaseAdapter {
 
-    private ArrayList<String> mDdds;
+    private String[] mDdds;
     public LayoutInflater mInflater;
     public MainActivity mMainActivity;
 
-    public DddAdapter(MainActivity act, ArrayList<String> ddds)
+    public DddAdapter(MainActivity act, String[] ddds)
     {
         this.mDdds = ddds;
         mInflater = LayoutInflater.from(act);
@@ -32,12 +28,12 @@ public class DddAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mDdds.size();
+        return mDdds.length;
     }
 
     @Override
     public String getItem(int position) {
-        return mDdds.get(position);
+        return mDdds[position];
     }
 
     @Override

@@ -35,10 +35,6 @@ public class Preferences extends BaseActionBarActivity {
         mFragmentTransaction.replace(android.R.id.content, mPrefsFragment);
         mFragmentTransaction.commit();
 
-        boolean bAppUpdates = AppController.getInstance().mSharedPreferences.getBoolean("showNotification", false);
-        boolean aAppUpdates = AppController.getInstance().mSharedPreferences.getBoolean("showToast", false);
-
-
 
         setActionBar();
     }

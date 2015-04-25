@@ -24,8 +24,6 @@ import com.isl.operadora.R;
 import com.isl.operadora.Util.Util;
 import com.isl.operadora.Widgets.CustomFontTextView;
 
-import java.util.ArrayList;
-
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
@@ -33,7 +31,8 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 public class MainActivity extends BaseActionBarActivity{
 
     private AlertDialog mDialogDDD;
-    public ArrayList<String> mDdds = new ArrayList<String>();
+    public String[] mDdds;
+    public SharedPreferences.Editor mEditorPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -138,16 +137,17 @@ public class MainActivity extends BaseActionBarActivity{
     private void checkIfConfiguredDdd(){
         if(TextUtils.isEmpty(AppController.getInstance().mSharedPreferences.getString(Preferences.settingDDD, "")))
         {
+            mEditorPreferences = AppController.getInstance().mSharedPreferences.edit();
+            mEditorPreferences.putBoolean(Preferences.settingNotification, true);
+            mEditorPreferences.putBoolean(Preferences.settingToast, true);
+            mEditorPreferences.apply();
+
             mDialogDDD = new AlertDialog.Builder(AppController.getInstance()).create();
             View view = getLayoutInflater().inflate(R.layout.list_ddd, null);
             mDialogDDD = new AlertDialog.Builder( this ).create();
             mDialogDDD.setView(view);
             mDialogDDD.setInverseBackgroundForced(true);
-
-            for(int i=11; i<=99; i++){
-                mDdds.add(String.valueOf(i));
-            }
-
+            mDdds = getResources().getStringArray(R.array.listOptions);
             ListView listDDD = (ListView) view.findViewById(R.id.listDDD);
             listDDD.setAdapter(new DddAdapter(this, mDdds));
 
@@ -158,9 +158,10 @@ public class MainActivity extends BaseActionBarActivity{
 
     public void onClickListView(int position)
     {
-        String ddd = mDdds.get(position);
-        SharedPreferences.Editor editor = AppController.getInstance().mSharedPreferences.edit();
-        editor.putString(Preferences.settingDDD, ddd);
+        String ddd = mDdds[position];
+        mEditorPreferences = AppController.getInstance().mSharedPreferences.edit();
+        mEditorPreferences.putString(Preferences.settingDDD, ddd);
+        mEditorPreferences.apply();
         Crouton.makeText(this, getString(R.string.dddAddWithSuccess, ddd), Style.INFO).show();
         if(mDialogDDD.isShowing())
             mDialogDDD.dismiss();

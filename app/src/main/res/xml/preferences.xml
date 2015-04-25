@@ -22,7 +22,7 @@
         <ListPreference
             android:key="settingDDD"
             android:entries="@array/listOptions"
-            android:entryValues="@array/listValues"
+            android:entryValues="@array/listOptions"
             android:title="@string/settingDDD" />
 
     </PreferenceCategory>

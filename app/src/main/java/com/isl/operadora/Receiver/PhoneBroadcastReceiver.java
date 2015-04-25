@@ -23,7 +23,7 @@ import com.isl.operadora.Model.Contact;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
 import com.isl.operadora.Request.ContactRequest;
-import com.isl.operadora.Util.Logger;
+import com.isl.operadora.Ui.Preferences;
 import com.isl.operadora.Util.Util;
 
 /**
@@ -31,6 +31,8 @@ import com.isl.operadora.Util.Util;
  */
 public class PhoneBroadcastReceiver extends BroadcastReceiver implements View.OnClickListener {
     public AlertDialog mDialog;
+    public boolean mCheckIsNotification;
+    public boolean mCheckIsToast;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -39,11 +41,12 @@ public class PhoneBroadcastReceiver extends BroadcastReceiver implements View.On
         telephony.listen(customPhoneListener, PhoneStateListener.LISTEN_CALL_STATE);
         Bundle bundle = intent.getExtras();
         final String phoneNr = bundle.getString("incoming_number");
+        mCheckIsNotification = AppController.getInstance().mSharedPreferences.getBoolean(Preferences.settingNotification, true);
+        mCheckIsToast = AppController.getInstance().mSharedPreferences.getBoolean(Preferences.settingToast, true);
 
         switch (telephony.getCallState()){
             case TelephonyManager.CALL_STATE_RINGING:
-                Logger.t("LIGUEI");
-                if(!TextUtils.isEmpty(phoneNr))
+                if(!TextUtils.isEmpty(phoneNr) && (mCheckIsNotification == true || mCheckIsToast == true))
                 {
                     final String number = Util.formatPhone(phoneNr, "");
                     new ContactRequest(new String[]{number})
@@ -70,29 +73,36 @@ public class PhoneBroadcastReceiver extends BroadcastReceiver implements View.On
 
     private void showDialog(Portabily.PushPortabily.DataPortabily dataPortabily)
     {
-        LayoutInflater inflater = (LayoutInflater) AppController.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        AppController.getInstance().getApplicationContext().setTheme(R.style.Theme_Qualoperadora);
-        View view = inflater.inflate(R.layout.dialog_toast_on_call, null);
+        if(mCheckIsToast == true)
+        {
+            LayoutInflater inflater = (LayoutInflater) AppController.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            AppController.getInstance().getApplicationContext().setTheme(R.style.Theme_Qualoperadora);
+            View view = inflater.inflate(R.layout.dialog_toast_on_call, null);
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.carrieImage);
-        imageView.setImageResource(
-                Carries.getCarreiImage(dataPortabily.getRn1())
-        );
+            ImageView imageView = (ImageView) view.findViewById(R.id.carrieImage);
+            imageView.setImageResource(
+                    Carries.getCarreiImage(dataPortabily.getRn1())
+            );
 
-        TextView carrie = (TextView) view.findViewById(R.id.carrie);
-        carrie.setText(dataPortabily.getOperadora());
-        Toast toast = new Toast(AppController.getInstance());
-        toast.setView(view);
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
-        toast.show();
+            TextView carrie = (TextView) view.findViewById(R.id.carrie);
+            carrie.setText(dataPortabily.getOperadora());
+            Toast toast = new Toast(AppController.getInstance());
+            toast.setView(view);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER | Gravity.CENTER, 0, 0);
+            toast.show();
+        }
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(AppController.getInstance())
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(dataPortabily.getPhone() + " - " + Contact.getContactDisplayNameByNumber(dataPortabily.getPhone()))
-                .setContentText(dataPortabily.getOperadora());
-        NotificationManager mNotificationManager = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(0, mBuilder.build());
+
+        if(mCheckIsNotification == true)
+        {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(AppController.getInstance())
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(Contact.getContactDisplayNameByNumber(dataPortabily.getPhone()) + " - " +dataPortabily.getPhone())
+                    .setContentText(dataPortabily.getOperadora());
+            NotificationManager mNotificationManager = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(0, mBuilder.build());
+        }
     }
 
     @Override
