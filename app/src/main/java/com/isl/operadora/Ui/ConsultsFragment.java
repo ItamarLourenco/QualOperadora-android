@@ -31,7 +31,7 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class ConsultsFragment extends BaseFragment implements View.OnClickListener{
-    private int TIME_VIBRATE = 10;
+    private int TIME_VIBRATE = 50;
 
     private EditText mTextPhone;
     private ImageView mBackSpace;
