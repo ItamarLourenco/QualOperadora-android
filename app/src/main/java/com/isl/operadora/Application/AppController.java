@@ -9,8 +9,10 @@ import android.widget.EditText;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 import com.isl.operadora.Ui.Preferences;
+import io.fabric.sdk.android.Fabric;
 
 
 /**
@@ -30,6 +32,7 @@ public class AppController extends Application {
     @Override
     public void onCreate(){
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         appController = this;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
     }

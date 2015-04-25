@@ -5,11 +5,13 @@
         android:title="@string/showNotificationAndToast" >
         <CheckBoxPreference
             android:key="showNotification"
+            android:widgetLayout="@layout/custom_checkbox"
             android:title="@string/showNotificationInfo"
             android:summary="@string/showNotificationInfo2" />
 
         <CheckBoxPreference
             android:key="showToast"
+            android:widgetLayout="@layout/custom_checkbox"
             android:title="@string/showToastsInfo"
             android:summary="@string/showToastsInfo2" />
 

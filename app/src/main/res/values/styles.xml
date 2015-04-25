@@ -39,6 +39,10 @@
         <item name="progressBarStyle">@style/ProgressBar.Qualoperadora</item>
     </style>
 
+    <style name="CheckBoxQualoperadora" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/apptheme_btn_check_holo_light</item>
+    </style>
+
     <style name="PopupMenu.Qualoperadora" parent="@style/Widget.AppCompat.Light.PopupMenu">
     </style>
 
