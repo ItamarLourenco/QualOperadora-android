@@ -3,6 +3,7 @@ package com.isl.operadora.Ui;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -17,10 +18,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.analytics.Tracker;
 import com.isl.operadora.Adapter.DddAdapter;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Base.BaseActionBarActivity;
+import com.isl.operadora.BuildConfig;
 import com.isl.operadora.R;
+import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Util;
 import com.isl.operadora.Widgets.CustomFontTextView;
 
@@ -33,6 +40,8 @@ public class MainActivity extends BaseActionBarActivity{
     private AlertDialog mDialogDDD;
     public String[] mDdds;
     public SharedPreferences.Editor mEditorPreferences;
+    public InterstitialAd mInterstitialAd;
+    public CountDownTimer countDownTimerForAdMob;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -46,6 +55,7 @@ public class MainActivity extends BaseActionBarActivity{
         pager.setAdapter(new PagersAdapter(getSupportFragmentManager()));
         tabs.setViewPager(pager);
 
+        startAdMobFullScreen();
         checkIfConfiguredDdd();
     }
 
@@ -174,8 +184,7 @@ public class MainActivity extends BaseActionBarActivity{
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
+                switch (menuItem.getItemId()) {
                     case R.id.setting:
                         startActivity(Preferences.newContent(MainActivity.this));
                         break;
@@ -184,6 +193,38 @@ public class MainActivity extends BaseActionBarActivity{
             }
         });
         popupMenu.show();
+    }
+
+    private void startAdMobFullScreen()
+    {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(AppController.pubAdMob);
+        requestNewInterstitial();
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                countDownTimerForAdMob.start();
+                requestNewInterstitial();
+            }
+        });
+        countDownTimerForAdMob = new CountDownTimer(AppController.timeOnMinutesAdMobFulLScreen, 60000){
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                Logger.d("CountDown = " + millisUntilFinished + " Finish = " + AppController.timeOnMinutesAdMobFulLScreen);
+            }
+
+            @Override
+            public void onFinish() {
+                mInterstitialAd.show();
+            }
+        };
+        countDownTimerForAdMob.start();
+    }
+
+
+    private void requestNewInterstitial() {
+        mInterstitialAd.loadAd(AppController.getInstance().getAdRequest());
     }
 }
 

@@ -23,7 +23,7 @@ import com.isl.operadora.Widgets.CustomFontTextView;
  */
 public class DialogCustom{
 
-    private static AdView adView;
+    public static AdView adView;
     public static LinearLayout mLoadingLinear;
     public static LinearLayout mCarriesLinear;
     public static LinearLayout mNotFound;
@@ -194,8 +194,7 @@ public class DialogCustom{
             }
         });
         DialogCustom.layoutAdmmob.addView(adView);
-        AdRequest adRequest = new AdRequest.Builder().addTestDevice("A0C1DE1295BCD23004629CE3AF971C7D").build();
-        adView.loadAd(adRequest);
+        adView.loadAd(AppController.getInstance().getAdRequest());
     }
 
 
