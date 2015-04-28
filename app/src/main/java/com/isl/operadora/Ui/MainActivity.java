@@ -19,13 +19,10 @@ import android.widget.ListView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.analytics.Tracker;
 import com.isl.operadora.Adapter.DddAdapter;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Base.BaseActionBarActivity;
-import com.isl.operadora.BuildConfig;
 import com.isl.operadora.R;
 import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Util;

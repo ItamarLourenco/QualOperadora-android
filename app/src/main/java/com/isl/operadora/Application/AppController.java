@@ -11,14 +11,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
 import com.isl.operadora.BuildConfig;
-import com.isl.operadora.R;
 import com.isl.operadora.Ui.Preferences;
-
-import java.util.HashMap;
+import com.isl.operadora.Util.GoogleAnalyticsUtil;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -39,12 +35,17 @@ public class AppController extends Application {
     public final static String pubAdMob = "ca-app-pub-2541702994665550/3303361023";
     public final static String googleAnalytics = "UA-35838537-2";
 
+    public AppController() {
+        super();
+    }
+
     @Override
     public void onCreate(){
         super.onCreate();
         Fabric.with(this, new Crashlytics());
         appController = this;
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        GoogleAnalyticsUtil.enableTracker(getApplicationContext());
     }
 
     public static synchronized AppController getInstance(){

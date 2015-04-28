@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 
 import com.gc.materialdesign.views.ButtonFlat;
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.isl.operadora.Application.AppController;
@@ -16,6 +15,7 @@ import com.isl.operadora.Model.Carries;
 import com.isl.operadora.Model.Contact;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
+import com.isl.operadora.Util.GoogleAnalyticsUtil;
 import com.isl.operadora.Widgets.CustomFontTextView;
 
 /**
@@ -93,6 +93,8 @@ public class DialogCustom{
             {
                 if(dataPortabily != null)
                 {
+                    GoogleAnalyticsUtil.eventPortabilityQuery(contact.getNumber());
+
                     DialogCustom.mContact.setText(" " + contact.getName());
                     DialogCustom.mPhone.setText(" " + contact.getNumber());
 
