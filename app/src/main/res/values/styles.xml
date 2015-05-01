@@ -74,4 +74,9 @@
         <item name="dropDownListViewStyle">@style/DropDownListView.Qualoperadora</item>
     </style>
 
+    <style name="Theme.Qualoperadora.NoActionBar" parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>

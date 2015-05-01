@@ -139,4 +139,8 @@
         <item>98</item>
         <item>99</item>
     </string-array>
+    <string name="title_activity_splash">Splash</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

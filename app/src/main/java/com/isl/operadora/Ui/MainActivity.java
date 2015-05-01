@@ -1,6 +1,8 @@
 package com.isl.operadora.Ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -54,6 +56,11 @@ public class MainActivity extends BaseActionBarActivity{
 
         startAdMobFullScreen();
         checkIfConfiguredDdd();
+    }
+
+    public static Intent newIntent(Context context){
+        Intent intent = new Intent(context, MainActivity.class);
+        return intent;
     }
 
     private void setActionBar(){
@@ -213,7 +220,11 @@ public class MainActivity extends BaseActionBarActivity{
 
             @Override
             public void onFinish() {
-                mInterstitialAd.show();
+                if(isActivityVisible()){
+                    mInterstitialAd.show();
+                }else{
+                    countDownTimerForAdMob.start();
+                }
             }
         };
         countDownTimerForAdMob.start();

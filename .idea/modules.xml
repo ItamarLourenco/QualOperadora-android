@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/QualOperadora-android.iml" filepath="$PROJECT_DIR$/QualOperadora-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/QualOperadora-android.iml" filepath="$PROJECT_DIR$/QualOperadora-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/contacts/contacts.iml" filepath="$PROJECT_DIR$/contacts/contacts.iml" />
       <module fileurl="file://$PROJECT_DIR$/contacts/contacts.iml" filepath="$PROJECT_DIR$/contacts/contacts.iml" />
     </modules>
   </component>
