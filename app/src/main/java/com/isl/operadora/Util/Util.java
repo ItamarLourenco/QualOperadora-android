@@ -69,6 +69,12 @@ public class Util {
             {
                 phone = ddd+phone;
             }
+
+            if(phone.length() == 13) // TELEFONE FIXO SEM DDD COM OPERADORA
+            {
+                phone = phone.substring(2);
+            }
+
             /*
             else if(phone.length() == 10) // TELEFONE FIXO COM DDD
             {}

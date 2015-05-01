@@ -26,6 +26,7 @@ public class Splash extends BaseActionBarActivity {
             @Override
             public void onFinish() {
                 startActivity(MainActivity.newIntent(Splash.this));
+                finish();
             }
         }.start();
 
