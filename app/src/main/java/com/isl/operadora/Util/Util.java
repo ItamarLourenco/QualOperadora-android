@@ -56,9 +56,10 @@ public class Util {
             {
                 phone = phone.substring(1);
             }
-            if(phone.substring(0, 2).equals("55"))
-            {
-                phone = phone.substring(2);
+            if(phone.length() >= 2) {
+                if (phone.substring(0, 2).equals("55")) {
+                    phone = phone.substring(2);
+                }
             }
 
             if(phone.length() == 8) // TELEFONE FIXO SEM DDD
