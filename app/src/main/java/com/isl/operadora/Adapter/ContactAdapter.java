@@ -29,7 +29,12 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
 
     public ContactAdapter(ContactsFragment fragment, Activity act, ArrayList<Contact> contacts){
         mActivity = act;
-        mContacts = contacts;
+        if(mContacts != null){
+            mContacts = contacts;
+        }else{
+            mContacts = new ArrayList<>();
+        }
+
         mInflater = LayoutInflater.from(act);
         mFragment = fragment;
     }
