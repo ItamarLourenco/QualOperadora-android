@@ -5,6 +5,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.gson.JsonSyntaxException;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.Util.Util;
@@ -31,8 +32,12 @@ public abstract class ContactRequest {
                     @Override
                     public void onResponse(String response)
                     {
-                        Portabily.PushPortabily pushPortabily = AppController.GSON.fromJson(response, Portabily.PushPortabily.class);
-                        onFinish(pushPortabily);
+                        try {
+                            Portabily.PushPortabily pushPortabily = AppController.GSON.fromJson(response, Portabily.PushPortabily.class);
+                            onFinish(pushPortabily);
+                        }catch (JsonSyntaxException e){
+                            onFinish(null);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
