@@ -1,9 +1,11 @@
 package com.isl.operadora.Ui;
 
+import android.annotation.TargetApi;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
@@ -27,6 +29,7 @@ public class Preferences extends BaseActionBarActivity {
         return new Intent(context, Preferences.class);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FragmentManager mFragmentManager = getFragmentManager();
@@ -35,10 +38,10 @@ public class Preferences extends BaseActionBarActivity {
         mFragmentTransaction.replace(android.R.id.content, mPrefsFragment);
         mFragmentTransaction.commit();
 
-
         setActionBar();
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class PrefsFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
