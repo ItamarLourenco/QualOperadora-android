@@ -24,6 +24,7 @@ import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.R;
 import com.isl.operadora.Request.ContactRequest;
 import com.isl.operadora.Ui.Preferences;
+import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Util;
 
 /**
@@ -96,12 +97,16 @@ public class PhoneBroadcastReceiver extends BroadcastReceiver implements View.On
 
         if(mCheckIsNotification == true)
         {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(AppController.getInstance())
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle(Contact.getContactDisplayNameByNumber(dataPortabily.getPhone()) + " - " +dataPortabily.getPhone())
-                    .setContentText(dataPortabily.getOperadora());
-            NotificationManager mNotificationManager = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(0, mBuilder.build());
+            try {
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(AppController.getInstance())
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setContentTitle(Contact.getContactDisplayNameByNumber(dataPortabily.getPhone()) + " - " + dataPortabily.getPhone())
+                        .setContentText(dataPortabily.getOperadora());
+                NotificationManager mNotificationManager = (NotificationManager) AppController.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.notify(0, mBuilder.build());
+            }catch(IllegalArgumentException e){
+                Logger.d("Erro Show notification");
+            }
         }
     }
 
