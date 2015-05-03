@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.andexert.library.RippleView;
+import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Model.Contact;
 import com.isl.operadora.R;
 import com.isl.operadora.Ui.ContactsFragment;
@@ -92,9 +93,14 @@ public class ContactAdapter extends BaseAdapter implements StickyListHeadersAdap
         } else {
             holder = (HeaderViewHolder) convertView.getTag();
         }
-        String headerText = String.valueOf(getItem(position).getName().subSequence(0, 1).charAt(0));
-        holder.text.setText(headerText);
-        return convertView;
+        try{
+            String headerText = String.valueOf(getItem(position).getName().subSequence(0, 1).charAt(0));
+            holder.text.setText(headerText);
+
+            return convertView;
+        }catch (NullPointerException e){
+            return new View(AppController.getInstance());
+        }
     }
 
     @Override
