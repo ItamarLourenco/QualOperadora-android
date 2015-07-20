@@ -8,17 +8,37 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.JsonSyntaxException;
 import com.isl.operadora.Application.AppController;
 import com.isl.operadora.Model.Portabily;
+import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Util;
 
 /**
  * Created by webx on 09/04/15.
  */
-public abstract class ContactRequest {
-
-    private final String url = "http://54.200.133.35/qualOperadora/web/index.php?r=api/portabilidade";
-    private static final String security = "#@qu4l0pe4d0r4@#";
+public abstract class ContactRequest extends URLRequest {
+    public static int countCalLServer = 0;
+    private String[] phones;
 
     public ContactRequest(final String[] phones){
+        this.phones = phones;
+        startCall();
+    }
+
+    private void startCall() {
+        if(ContactRequest.countCalLServer > server.length){
+            ContactRequest.countCalLServer = 0;
+        }
+
+        if(this.phones.length >= 0 && server.length >= 0){
+            String url = formatUrl(server[countCalLServer], this.phones[0]);
+            callServer(url);
+
+            return;
+        }
+        onFinish(null);
+    }
+
+    private void callServer(final String url){
+        ContactRequest.countCalLServer++;
 
         Portabily portabily = new Portabily();
         final Portabily.PullPortabily getPortabily = portabily.getPortabily();
@@ -33,10 +53,9 @@ public abstract class ContactRequest {
                     public void onResponse(String response)
                     {
                         try {
-                            Portabily.PushPortabily pushPortabily = AppController.GSON.fromJson(response, Portabily.PushPortabily.class);
-                            onFinish(pushPortabily);
+                            handleResult(response);
                         }catch (JsonSyntaxException e){
-                            onFinish(null);
+                            handleResult(null);
                         }
                     }
                 },
@@ -55,6 +74,15 @@ public abstract class ContactRequest {
             }
         };
         AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+
+    private void handleResult(String response){
+        //Portabily.PushPortabily pushPortabily = AppController.GSON.fromJson(response, Portabily.PushPortabily.class);
+        if(ERRO_LIMITE.equals(response)){
+            startCall();
+        }
+
+        Logger.t("OK");
     }
 
     public abstract void onFinish(Portabily.PushPortabily portabily);
