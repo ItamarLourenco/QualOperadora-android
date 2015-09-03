@@ -98,7 +98,7 @@ import java.util.Map;
  */
 
 public class Carries {
-    private static Map<Integer, Integer> mCarries = new HashMap<Integer, Integer>();
+    private static Map<Integer, Integer> mCarries = new HashMap<>();
 
     public static void generateCarries(){
         mCarries.put(55114, R.drawable.brasil_telecom);
@@ -137,6 +137,58 @@ public class Carries {
             return imageChosen;
         }catch(NumberFormatException e){
             return R.mipmap.ic_launcher;
+        }
+    }
+
+    public static Carrie getCarriesByCode(int code){
+        Map<Integer, Carrie> carries = new HashMap<>();
+        carries.put(77, new Carrie("E_NEXTEL (SME)", R.drawable.nextel));
+        carries.put(78, new Carrie("NEXTEL (SMP)", R.drawable.nextel));
+        carries.put(23, new Carrie("TELEMIG", R.mipmap.ic_launcher));
+        carries.put(12, new Carrie("CTBC", R.drawable.ctbc));
+        carries.put(14, new Carrie("BRASIL TELECOM", R.drawable.brasil_telecom));
+        carries.put(20, new Carrie("VIVO", R.drawable.vivo));
+        carries.put(21, new Carrie("CLARO", R.drawable.claro));
+        carries.put(31, new Carrie("OI", R.drawable.oi));
+        carries.put(24, new Carrie("AMAZONIA", R.mipmap.ic_launcher));
+        carries.put(37, new Carrie("UNICEL", R.mipmap.ic_launcher));
+        carries.put(41, new Carrie("TIM", R.drawable.tim));
+        carries.put(43, new Carrie("SERCOMERCIO", R.mipmap.ic_launcher));
+        carries.put(81, new Carrie("Datora", R.mipmap.ic_launcher));
+        carries.put(98, new Carrie("Fixo", R.mipmap.ic_launcher));
+        carries.put(99, new Carrie("Não encontrado", R.mipmap.ic_launcher));
+
+
+        Carrie carrie = carries.get(code);
+        if(carrie == null){
+            carrie = carries.get(99);
+        }
+        return carrie;
+    }
+
+
+    public static class Carrie{
+        public String name;
+        public int idImage;
+        public Carrie(String name, int idImage) {
+            this.name = name;
+            this.idImage = idImage;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getIdImage() {
+            return idImage;
+        }
+
+        public void setIdImage(int idImage) {
+            this.idImage = idImage;
         }
     }
 }

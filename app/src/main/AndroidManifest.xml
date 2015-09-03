@@ -20,7 +20,7 @@
             android:name=".Ui.Preferences"
             android:label="@string/app_name" >
         </activity>
-        <activity
+        <activityw
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:name=".Ui.Splash"
             android:label="@string/app_name" >
@@ -29,7 +29,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activityw>
 
         <activity android:name="com.google.android.gms.ads.AdActivity"
             android:theme="@android:style/Theme.Translucent"

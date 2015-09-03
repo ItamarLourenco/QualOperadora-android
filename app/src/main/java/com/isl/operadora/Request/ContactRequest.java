@@ -7,6 +7,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.JsonSyntaxException;
 import com.isl.operadora.Application.AppController;
+import com.isl.operadora.Model.Carries;
 import com.isl.operadora.Model.Portabily;
 import com.isl.operadora.Util.Logger;
 import com.isl.operadora.Util.Util;
@@ -78,11 +79,12 @@ public abstract class ContactRequest extends URLRequest {
 
     private void handleResult(String response){
         //Portabily.PushPortabily pushPortabily = AppController.GSON.fromJson(response, Portabily.PushPortabily.class);
-        if(ERRO_LIMITE.equals(response)){
+        if(ERROR_LIMIT.equals(response)){
             startCall();
         }
 
-        Logger.t("OK");
+        Carries.Carrie carrie = Carries.getCarriesByCode(21);
+
     }
 
     public abstract void onFinish(Portabily.PushPortabily portabily);
